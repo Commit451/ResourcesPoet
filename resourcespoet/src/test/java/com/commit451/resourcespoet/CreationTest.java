@@ -21,6 +21,9 @@ public class CreationTest {
 
         ResourcesPoet poet = ResourcesPoet.create();
         poet.addString("app_name", "Test");
+        poet.addColor("color_primary", "#FF0000");
+        poet.addBool("is_cool", true);
+        poet.addComment("This is a comment");
 
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);

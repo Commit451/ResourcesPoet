@@ -16,7 +16,18 @@ dependencies {
 ```
 
 # Basic Usage
-//TODO
+```java
+ResourcesPoet poet = ResourcesPoet.create();
+poet.addString("app_name", "Test");
+poet.addColor("color_primary", "#FF0000");
+poet.addBool("is_cool", true);
+poet.addComment("This is a comment");
+
+//This writes the result to a string, in a pretty format
+StringWriter writer = new StringWriter();
+StreamResult result = new StreamResult(writer);
+poet.build(result, true);
+```
 
 License
 --------
