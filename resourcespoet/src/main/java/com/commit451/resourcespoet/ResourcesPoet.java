@@ -1,6 +1,5 @@
 package com.commit451.resourcespoet;
 
-import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -25,6 +24,8 @@ import javax.xml.transform.stream.StreamResult;
  */
 public class ResourcesPoet {
 
+    private static final String ELEMENT_RESOURCES = "resources";
+
     private static DocumentBuilderFactory sDocumentBuilderFactory;
     private static DocumentBuilder sDocumentBuilder;
 
@@ -33,12 +34,11 @@ public class ResourcesPoet {
      * @return a resources builder
      */
     public static ResourcesPoet create() {
-        try {
-            return createInternal(null);
-        } catch (Exception e) {
-            //This won't happen
-            return null;
-        }
+        init();
+        Document document = sDocumentBuilder.newDocument();
+        Element resources = document.createElement(ELEMENT_RESOURCES);
+        document.appendChild(resources);
+        return create(document, resources);
     }
 
     /**
@@ -49,7 +49,24 @@ public class ResourcesPoet {
      * @throws SAXException
      */
     public static ResourcesPoet create(File file) throws IOException, SAXException {
-        return createInternal(file);
+        init();
+        Document document = sDocumentBuilder.parse(file);
+        Element resources;
+        NodeList list = document.getElementsByTagName(ELEMENT_RESOURCES);
+        if (list == null || list.getLength() == 0) {
+            resources = document.createElement(ELEMENT_RESOURCES);
+            document.appendChild(resources);
+        } else {
+            resources = (Element) list.item(0);
+        }
+        return create(document, resources);
+    }
+
+    private static ResourcesPoet create(Document document, Element resourceElement) {
+        ResourcesPoet poet = new ResourcesPoet();
+        poet.document = document;
+        poet.resourceElement = resourceElement;
+        return poet;
     }
 
     private static void init() {
@@ -64,37 +81,12 @@ public class ResourcesPoet {
         }
     }
 
-    private static ResourcesPoet createInternal(@Nullable File file) throws IOException, SAXException {
-        init();
-        ResourcesPoet xmlResourcesBuilder = new ResourcesPoet();
-
-        Document document;
-        if (file == null) {
-            document = sDocumentBuilder.newDocument();
-        } else {
-            document = sDocumentBuilder.parse(file);
-        }
-        xmlResourcesBuilder.document = document;
-
-        Element resources;
-        //If this is a valid config, there will only be one
-        NodeList list = document.getElementsByTagName("resources");
-        if (list == null || list.getLength() == 0) {
-            resources = document.createElement("resources");
-            document.appendChild(resources);
-        } else {
-            resources = (Element) list.item(0);
-        }
-        xmlResourcesBuilder.resourceElement = resources;
-        return xmlResourcesBuilder;
-    }
+    private Document document;
+    private Element resourceElement;
 
     private ResourcesPoet() {
         //use the builder
     }
-
-    private Document document;
-    private Element resourceElement;
 
     public void addBool(String name, boolean value) {
         Attr attr = document.createAttribute("name");
