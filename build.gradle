@@ -8,3 +8,9 @@ buildscript {
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     }
 }
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}

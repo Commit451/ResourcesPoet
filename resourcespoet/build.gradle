@@ -3,10 +3,6 @@ version '1.0'
 
 apply plugin: 'java'
 
-repositories {
-    jcenter()
-}
-
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'com.google.guava:guava:19.0'
