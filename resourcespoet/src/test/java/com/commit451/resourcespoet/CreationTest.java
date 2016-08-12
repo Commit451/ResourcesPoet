@@ -58,7 +58,7 @@ public class CreationTest {
         Assert.assertEquals(Util.trimtrimtrim(text), Util.trimtrimtrim(writtenContent));
     }
 
-    //@Test
+    @Test
     public void addToExistingFile() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("config.xml").getFile());

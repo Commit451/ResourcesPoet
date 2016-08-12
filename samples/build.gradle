@@ -1,0 +1,7 @@
+apply plugin: 'java'
+
+dependencies {
+    compile 'com.squareup.moshi:moshi:1.2.0'
+    compile 'com.google.guava:guava:19.0'
+    compile project(':resourcespoet')
+}

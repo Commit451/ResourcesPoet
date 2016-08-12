@@ -24,8 +24,7 @@ ResourcesPoet poet = ResourcesPoet.create()
             .addBool("is_cool", true).addComment("This is a comment")
             .addDrawable("logo", "@drawable/logo")
             .addStyle("AppTheme.Dark", "Base.AppTheme.Dark");
-
-
+            //etc
 ```
 When you are ready for the XML result as a file:
 ```java
@@ -44,6 +43,27 @@ poet.build(result, true);
 
 String resourcesXml = writer.toString();
 ```
+
+# Supported Types
+Most types are supported. All look similar in usage
+```java
+ResourcesPoet poet = ResourcesPoet.create()
+            .addBool("is_cool", true)
+            .addColor("color_primary", "#FF0000")
+            .addComment("This is a comment")
+            .addDimension("margin", "2dp")
+            .addDrawable("logo", "@drawable/logo")
+            .addId("some_id")
+            .addInteger("number", 0)
+            .addIntegerArray("numbers", numbers)
+            .addPlurals("songs", plurals)
+            .addString("app_name", "Test")
+            .addStringArray("stuff", strings)
+            .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
+            .addTypedArray("some_typed_array", typedArray);
+```
+We do not allow configuration of more complicated resources like `style` and `drawable` and `anim` in the creation sense. Maybe one day
+
 License
 --------
 
