@@ -19,11 +19,12 @@ public class CreationTest {
         URL url = Resources.getResource("config.xml");
         String text = Resources.toString(url, Charsets.UTF_8);
 
-        ResourcesPoet poet = ResourcesPoet.create();
-        poet.addString("app_name", "Test");
-        poet.addColor("color_primary", "#FF0000");
-        poet.addBool("is_cool", true);
-        poet.addComment("This is a comment");
+        ResourcesPoet poet = ResourcesPoet.create()
+                .addString("app_name", "Test")
+                .addColor("color_primary", "#FF0000")
+                .addBool("is_cool", true).addComment("This is a comment")
+                .addDrawable("logo", "@drawable/logo")
+                .addStyle("AppTheme.Dark", "Base.AppTheme.Dark");
 
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);

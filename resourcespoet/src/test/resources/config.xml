@@ -4,4 +4,6 @@
     <color name="color_primary">#FF0000</color>
     <bool name="is_cool">true</bool>
     <!--This is a comment-->
+    <drawable name="logo">@drawable/logo</drawable>
+    <style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
 </resources>

@@ -1,5 +1,5 @@
 # ResourcePoet
-Like JavaPoet, but for Android XML Resources
+Like [JavaPoet](https://github.com/square/javapoet), but for Android XML Resources
 
 [![Build Status](https://travis-ci.org/Commit451/ResourcesPoet.svg?branch=master)](https://travis-ci.org/Commit451/ResourcesPoet)
 [![](https://jitpack.io/v/Commit451/ResourcesPoet.svg)](https://jitpack.io/#Commit451/ResourcesPoet)
@@ -16,19 +16,34 @@ dependencies {
 ```
 
 # Basic Usage
+Write variables to the poet like:
 ```java
-ResourcesPoet poet = ResourcesPoet.create();
-poet.addString("app_name", "Test");
-poet.addColor("color_primary", "#FF0000");
-poet.addBool("is_cool", true);
-poet.addComment("This is a comment");
+ResourcesPoet poet = ResourcesPoet.create()
+            .addString("app_name", "Test")
+            .addColor("color_primary", "#FF0000")
+            .addBool("is_cool", true).addComment("This is a comment")
+            .addDrawable("logo", "@drawable/logo")
+            .addStyle("AppTheme.Dark", "Base.AppTheme.Dark");
 
-//This writes the result to a string, in a pretty format
+
+```
+When you are ready for the XML result as a file:
+```java
+File valuesFolder = new File(resFolderPath + File.separator + "values");
+valuesFolder.mkdirs();
+File configXml = new File(valuesFolder, "config.xml");
+configXml.createNewFile();
+StreamResult sr = new StreamResult(configXml);
+xmlResourcesBuilder.build(sr, true);
+```
+or if you want to write it to a string:
+```java
 StringWriter writer = new StringWriter();
 StreamResult result = new StreamResult(writer);
 poet.build(result, true);
-```
 
+String resourcesXml = writer.toString();
+```
 License
 --------
 
