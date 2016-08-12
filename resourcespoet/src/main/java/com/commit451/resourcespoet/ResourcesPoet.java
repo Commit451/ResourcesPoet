@@ -99,10 +99,22 @@ public class ResourcesPoet {
      * @return poet
      */
     public ResourcesPoet addBool(String name, boolean value) {
+        addBool(name, String.valueOf(value));
+        return this;
+    }
+
+    /**
+     * Add a boolean to the config
+     *
+     * @param name  the name
+     * @param value the value
+     * @return poet
+     */
+    public ResourcesPoet addBool(String name, String value) {
         //<bool name="is_production">false</bool>
         Element element = document.createElement("bool");
         element.setAttribute("name", name);
-        element.appendChild(value ? document.createTextNode("true") : document.createTextNode("false"));
+        element.appendChild(document.createTextNode(value));
         resourceElement.appendChild(element);
         return this;
     }
@@ -110,15 +122,15 @@ public class ResourcesPoet {
     /**
      * Add a color to the config
      *
-     * @param name                the name
-     * @param hexStringColorValue the value
+     * @param name  the name
+     * @param value the value
      * @return poet
      */
-    public ResourcesPoet addColor(String name, String hexStringColorValue) {
+    public ResourcesPoet addColor(String name, String value) {
         //<color name="color_primary">#7770CB</color>
         Element element = document.createElement("color");
         element.setAttribute("name", name);
-        element.appendChild(document.createTextNode(hexStringColorValue));
+        element.appendChild(document.createTextNode(value));
         resourceElement.appendChild(element);
         return this;
     }
@@ -138,15 +150,15 @@ public class ResourcesPoet {
     /**
      * Add a drawable to the config
      *
-     * @param name the name
-     * @param ref  the value
+     * @param name  the name
+     * @param value the value
      * @return poet
      */
-    public ResourcesPoet addDrawable(String name, String ref) {
+    public ResourcesPoet addDrawable(String name, String value) {
         //<drawable name="logo">@drawable/logo</drawable>
         Element bool = document.createElement("drawable");
         bool.setAttribute("name", name);
-        bool.appendChild(document.createTextNode(ref));
+        bool.appendChild(document.createTextNode(value));
         resourceElement.appendChild(bool);
         return this;
     }
@@ -192,6 +204,18 @@ public class ResourcesPoet {
      * @return poet
      */
     public ResourcesPoet addInteger(String name, Integer value) {
+        addInteger(name, String.valueOf(value));
+        return this;
+    }
+
+    /**
+     * Add an integer to the config
+     *
+     * @param name  the name
+     * @param value the value
+     * @return poet
+     */
+    public ResourcesPoet addInteger(String name, String value) {
         //<drawable name="logo">@drawable/logo</drawable>
         Element bool = document.createElement("integer");
         bool.setAttribute("name", name);
@@ -203,21 +227,33 @@ public class ResourcesPoet {
     /**
      * Add an integer array to the config
      *
-     * @param name  the name
+     * @param name   the name
      * @param values the value
      * @return poet
      */
     public ResourcesPoet addIntegerArray(String name, @NotNull List<Integer> values) {
+        addIntegerArray(name, Util.from(values));
+        return this;
+    }
+
+    /**
+     * Add an integer array to the config
+     *
+     * @param name   the name
+     * @param values the value
+     * @return poet
+     */
+    public ResourcesPoet addIntegerArray(String name, @NotNull List<String> values) {
         // <integer-array name="numbers">
         //      <item>0</item>
         //      <item>1</item>
         // </integer-array>
         Element element = document.createElement("integer-array");
         element.setAttribute("name", name);
-        for (Integer value : values) {
+        for (String value : values) {
             //Does this mess up the ordering?
             Element valueElement = document.createElement("item");
-            valueElement.appendChild(document.createTextNode(String.valueOf(value)));
+            valueElement.appendChild(document.createTextNode(value));
             element.appendChild(valueElement);
         }
         resourceElement.appendChild(element);
@@ -227,7 +263,7 @@ public class ResourcesPoet {
     /**
      * Add a plural strings array to the config
      *
-     * @param name  the name
+     * @param name    the name
      * @param plurals the plurals
      * @return poet
      */
@@ -270,7 +306,7 @@ public class ResourcesPoet {
     /**
      * Add a String array to the config
      *
-     * @param name  the name
+     * @param name   the name
      * @param values the value
      * @return poet
      */
@@ -312,7 +348,7 @@ public class ResourcesPoet {
     /**
      * Add a typed array to the config
      *
-     * @param name  the name
+     * @param name   the name
      * @param values the value
      * @return poet
      */
