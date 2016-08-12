@@ -44,8 +44,8 @@ poet.build(result, true);
 String resourcesXml = writer.toString();
 ```
 
-# Supported Types
-Most types are supported. All look similar in usage
+## Supported Types
+Most [resource types](https://developer.android.com/guide/topics/resources/available-resources.html) are supported. All look similar in usage:
 ```java
 ResourcesPoet poet = ResourcesPoet.create()
             .addBool("is_cool", true)
