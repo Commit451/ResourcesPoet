@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+<string name="app_name">Test</string>
+<color name="color_primary">#FF0000</color>
+<bool name="is_cool">true</bool>
+<!--This is a comment-->
+<drawable name="logo">@drawable/logo</drawable>
+<style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
+<string-array name="stuff">
+<item>One</item>
+<item>Two</item>
+</string-array>
+<string name="added">this one was added</string>
+</resources>
