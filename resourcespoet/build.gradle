@@ -1,0 +1,14 @@
+group 'com.commit451'
+version '1.0'
+
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+    testCompile 'com.google.guava:guava:19.0'
+    compile 'org.jetbrains:annotations:15.0'
+}

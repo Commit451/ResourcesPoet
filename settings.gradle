@@ -1,0 +1,4 @@
+rootProject.name = 'resourcespoet'
+include 'resourcespoet'
+include 'samples'
+
