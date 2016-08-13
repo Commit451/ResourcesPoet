@@ -18,6 +18,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -232,7 +233,11 @@ public class ResourcesPoet {
      * @return poet
      */
     public ResourcesPoet addIntegerArray(String name, @NotNull List<Integer> values) {
-        addIntegerArray(name, Util.from(values));
+        ArrayList<String> integers = new ArrayList<>();
+        for (Integer value : values) {
+            integers.add(String.valueOf(value));
+        }
+        addIntegerArrayStrings(name, integers);
         return this;
     }
 
@@ -243,7 +248,7 @@ public class ResourcesPoet {
      * @param values the value
      * @return poet
      */
-    public ResourcesPoet addIntegerArray(String name, @NotNull List<String> values) {
+    public ResourcesPoet addIntegerArrayStrings(String name, @NotNull List<String> values) {
         // <integer-array name="numbers">
         //      <item>0</item>
         //      <item>1</item>
