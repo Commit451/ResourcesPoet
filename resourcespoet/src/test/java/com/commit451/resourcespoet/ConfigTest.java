@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Tests the resources creation
  */
-public class CreationTest {
+public class ConfigTest {
 
     @Test
     public void creationTest() throws Exception {

@@ -61,7 +61,7 @@ ResourcesPoet poet = ResourcesPoet.create()
             .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
             .addTypedArray("some_typed_array", typedArray);
 ```
-We do not allow configuration of more complicated resources like `style` and `drawable` and `anim` in the creation sense. Maybe one day.
+We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense. Maybe one day.
 
 License
 --------
