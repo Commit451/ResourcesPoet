@@ -11,14 +11,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +27,7 @@ public class ResourcesPoet {
 
     private static DocumentBuilderFactory sDocumentBuilderFactory;
     private static DocumentBuilder sDocumentBuilder;
+    private static TransformerFactory transformerFactory;
 
     /**
      * Create a new builder
@@ -83,11 +80,13 @@ public class ResourcesPoet {
                 //Welp
                 throw new IllegalStateException("Unable to create a ResourcePoet");
             }
+            transformerFactory = TransformerFactory.newInstance();
         }
     }
 
     private Document document;
     private Element resourceElement;
+    private boolean indent;
 
     private ResourcesPoet() {
         //use the builder
@@ -394,30 +393,72 @@ public class ResourcesPoet {
     }
 
     /**
-     * Build the XML to the {@link StreamResult}
-     *
-     * @param result the result
-     * @throws TransformerException
+     * Specify if you want the output to be indented or not
+     * @param indent true if you want indentation. false if not. Default is false
+     * @return poet
      */
-    public void build(StreamResult result) throws TransformerException {
-        build(result, false);
+    public ResourcesPoet indent(boolean indent) {
+        this.indent = indent;
+        return this;
     }
 
     /**
-     * Build the XML to the {@link StreamResult} and indents to make it more readable
+     * Build the XML to a string
+     * @return the xml as a string
+     */
+    public String build() {
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        build(result);
+        return writer.toString();
+    }
+
+    /**
+     * Build the XML to a file. You should call {@link File#createNewFile()} or validate that the file exists
+     * before calling
+     * @param file the file to output the XML to
+     */
+    public void build(File file) {
+        StreamResult result = new StreamResult(file);
+        build(result);
+    }
+
+    /**
+     * Build the XML to the {@link OutputStream}
+     * @param outputStream the output stream to output the XML to
+     */
+    public void build(OutputStream outputStream) {
+        StreamResult result = new StreamResult(outputStream);
+        build(result);
+    }
+
+    /**
+     * Build the XML to the {@link Writer}
+     * @param writer the writer to output the XML to
+     */
+    public void build(Writer writer) {
+        StreamResult result = new StreamResult(writer);
+        build(result);
+    }
+
+    /**
+     * Build the XML to the {@link StreamResult}
      *
      * @param result the result
-     * @param indent true if you want indentation
-     * @throws TransformerException
      */
-    public void build(StreamResult result, boolean indent) throws TransformerException {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
-        if (indent) {
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    private void build(StreamResult result) {
+        try {
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+            if (indent) {
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            }
+            DOMSource source = new DOMSource(document);
+            transformer.transform(source, result);
+        } catch (TransformerConfigurationException e) {
+            throw new RuntimeException("Something is seriously wrong with the ResourcePoet configuration");
+        } catch (TransformerException e) {
+            throw new RuntimeException("Transformer exception when trying to build result");
         }
-        DOMSource source = new DOMSource(document);
-        transformer.transform(source, result);
     }
 }
