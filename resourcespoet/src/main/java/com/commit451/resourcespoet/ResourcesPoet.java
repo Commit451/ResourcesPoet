@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -78,9 +79,9 @@ public class ResourcesPoet {
             try {
                 sDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
                 sDocumentBuilder = sDocumentBuilderFactory.newDocumentBuilder();
-            } catch (Exception nope) {
+            } catch (ParserConfigurationException exception) {
                 //Welp
-                System.exit(1);
+                throw new IllegalStateException("Unable to create a ResourcePoet");
             }
         }
     }
@@ -340,11 +341,30 @@ public class ResourcesPoet {
      * @return poet
      */
     public ResourcesPoet addStyle(String name, @Nullable String parentRef) {
+        return addStyle(name, parentRef, null);
+    }
+
+    /**
+     * Add a style to the config
+     *
+     * @param name      the name
+     * @param parentRef a ref to the style parent
+     * @return poet
+     */
+    public ResourcesPoet addStyle(String name, @Nullable String parentRef, @Nullable List<StyleItem> styleItems) {
         //<style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
         Element element = document.createElement("style");
         element.setAttribute("name", name);
         if (parentRef != null) {
             element.setAttribute("parent", parentRef);
+        }
+        if (styleItems != null) {
+            for (StyleItem item : styleItems) {
+                Element valueElement = document.createElement("item");
+                valueElement.setAttribute("name", item.name);
+                valueElement.appendChild(document.createTextNode(item.value));
+                element.appendChild(valueElement);
+            }
         }
         resourceElement.appendChild(element);
         return this;
@@ -365,7 +385,6 @@ public class ResourcesPoet {
         Element element = document.createElement("array");
         element.setAttribute("name", name);
         for (String value : values) {
-            //Does this mess up the ordering?
             Element valueElement = document.createElement("item");
             valueElement.appendChild(document.createTextNode(value));
             element.appendChild(valueElement);
