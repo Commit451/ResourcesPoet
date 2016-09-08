@@ -32,15 +32,14 @@ File valuesFolder = new File(resFolderPath + File.separator + "values");
 valuesFolder.mkdirs();
 File configXml = new File(valuesFolder, "config.xml");
 configXml.createNewFile();
-StreamResult sr = new StreamResult(configXml);
-xmlResourcesBuilder.build(sr, true);
+StreamResult result = new StreamResult(configXml);
+poet.build(result, true);
 ```
 or if you want to write it to a string:
 ```java
 StringWriter writer = new StringWriter();
 StreamResult result = new StreamResult(writer);
 poet.build(result, true);
-
 String resourcesXml = writer.toString();
 ```
 
@@ -62,7 +61,7 @@ ResourcesPoet poet = ResourcesPoet.create()
             .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
             .addTypedArray("some_typed_array", typedArray);
 ```
-We do not allow configuration of more complicated resources like `style` and `drawable` and `anim` in the creation sense. Maybe one day
+We do not allow configuration of more complicated resources like `style` and `drawable` and `anim` in the creation sense. Maybe one day.
 
 License
 --------
