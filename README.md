@@ -11,7 +11,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile 'com.github.Commit451:ResourcesPoet:0.0.1'
+    compile 'com.github.Commit451:ResourcesPoet:1.0.0'
 }
 ```
 
@@ -32,15 +32,13 @@ File valuesFolder = new File(resFolderPath + File.separator + "values");
 valuesFolder.mkdirs();
 File configXml = new File(valuesFolder, "config.xml");
 configXml.createNewFile();
-StreamResult result = new StreamResult(configXml);
-poet.build(result, true);
+poet.build(configXml);
 ```
 or if you want to write it to a string:
 ```java
-StringWriter writer = new StringWriter();
-StreamResult result = new StreamResult(writer);
-poet.build(result, true);
-String resourcesXml = writer.toString();
+//indentation makes it easier to look at
+poet.indent(true);
+String resourcesXml = poet.build();
 ```
 
 ## Supported Types
