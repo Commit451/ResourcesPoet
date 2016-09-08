@@ -7,15 +7,13 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 
-import javax.xml.transform.stream.StreamResult;
-import java.io.StringWriter;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Sample which takes translations from a json source and converts them to appropriate resources files for Android
+ * Sample which takes states from a json source and converts them to appropriate resources files for Android
  */
 public class Main {
 
@@ -36,14 +34,12 @@ public class Main {
             for (State state : states) {
                 stateStrings.add(state.name);
             }
-            poet.addStringArray("states", stateStrings);
+            poet.addStringArray("states", stateStrings)
+                .indent(true);
 
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            poet.build(result, true);
+            String xml = poet.build();
 
-            String resourcesXml = writer.toString();
-            System.out.println(resourcesXml);
+            System.out.println(xml);
 
         } catch (Exception e) {
             e.printStackTrace();
