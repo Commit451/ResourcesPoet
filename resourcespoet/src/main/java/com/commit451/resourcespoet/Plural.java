@@ -15,19 +15,16 @@ public class Plural {
         other
     }
 
-    private String value;
-    private Quantity quantity;
+    public String value;
+    public Quantity quantity;
 
+    /**
+     * Construct a new plural
+     * @param quantity the quantity
+     * @param value the value
+     */
     public Plural(Quantity quantity, String value) {
         this.value = value;
         this.quantity = quantity;
-    }
-
-    public Quantity getQuantity() {
-        return quantity;
-    }
-
-    public String getValue() {
-        return value;
     }
 }

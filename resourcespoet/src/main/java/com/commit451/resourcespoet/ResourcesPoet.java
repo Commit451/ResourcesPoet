@@ -47,21 +47,24 @@ public class ResourcesPoet {
      *
      * @param file the resources file you want to add to
      * @return the builder
-     * @throws IOException
      * @throws SAXException
      */
-    public static ResourcesPoet create(File file) throws IOException, SAXException {
+    public static ResourcesPoet create(File file) {
         init();
-        Document document = sDocumentBuilder.parse(file);
-        Element resources;
-        NodeList list = document.getElementsByTagName(ELEMENT_RESOURCES);
-        if (list == null || list.getLength() == 0) {
-            resources = document.createElement(ELEMENT_RESOURCES);
-            document.appendChild(resources);
-        } else {
-            resources = (Element) list.item(0);
+        try {
+            Document document = sDocumentBuilder.parse(file);
+            Element resources;
+            NodeList list = document.getElementsByTagName(ELEMENT_RESOURCES);
+            if (list == null || list.getLength() == 0) {
+                resources = document.createElement(ELEMENT_RESOURCES);
+                document.appendChild(resources);
+            } else {
+                resources = (Element) list.item(0);
+            }
+            return create(document, resources);
+        } catch (IOException | SAXException e) {
+            throw new IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e);
         }
-        return create(document, resources);
     }
 
     private static ResourcesPoet create(Document document, Element resourceElement) {
@@ -90,6 +93,29 @@ public class ResourcesPoet {
 
     private ResourcesPoet() {
         //use the builder
+    }
+
+    /**
+     * Add an attr to the config
+     *
+     * @param attr  the defined attribute
+     * @return poet
+     */
+    public ResourcesPoet addAttr(Attr attr) {
+        //<attr name="gravityX" format="float"/>
+        Element element = document.createElement("attr");
+        element.setAttribute("name", attr.name);
+        if (attr.formats != null && !attr.formats.isEmpty()) {
+            String formatString = "";
+            for (Attr.Format format : attr.formats) {
+                formatString = formatString + format.toString() + "|";
+            }
+            //remove last |
+            formatString = formatString.substring(0, formatString.length()-1);
+            element.setAttribute("format", formatString);
+        }
+        resourceElement.appendChild(element);
+        return this;
     }
 
     /**
@@ -283,8 +309,8 @@ public class ResourcesPoet {
         for (Plural plural : plurals) {
             //Does this mess up the ordering?
             Element valueElement = document.createElement("item");
-            valueElement.setAttribute("quantity", plural.getQuantity().toString());
-            valueElement.appendChild(document.createTextNode(plural.getValue()));
+            valueElement.setAttribute("quantity", plural.quantity.toString());
+            valueElement.appendChild(document.createTextNode(plural.value));
             element.appendChild(valueElement);
         }
         resourceElement.appendChild(element);
