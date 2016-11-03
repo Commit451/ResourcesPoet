@@ -2,10 +2,7 @@ package com.commit451.resourcespoet;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,7 +29,7 @@ public class ResourcesPoet {
     /**
      * Create a new builder
      *
-     * @return a resources builder
+     * @return poet
      */
     public static ResourcesPoet create() {
         init();
@@ -46,13 +43,26 @@ public class ResourcesPoet {
      * Creates a builder on top of the current resources XML file
      *
      * @param file the resources file you want to add to
-     * @return the builder
-     * @throws SAXException
+     * @return poet
      */
     public static ResourcesPoet create(File file) {
+        try {
+            return create(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e);
+        }
+    }
+
+    /**
+     * Creates a builder on top of the current resources XML file
+     *
+     * @param inputStream the input stream of the resources file you want to add to
+     * @return poet
+     */
+    public static ResourcesPoet create(InputStream inputStream) {
         init();
         try {
-            Document document = sDocumentBuilder.parse(file);
+            Document document = sDocumentBuilder.parse(inputStream);
             Element resources;
             NodeList list = document.getElementsByTagName(ELEMENT_RESOURCES);
             if (list == null || list.getLength() == 0) {
@@ -98,12 +108,12 @@ public class ResourcesPoet {
     /**
      * Add an attr to the config
      *
-     * @param attr  the defined attribute
+     * @param attr the defined attribute
      * @return poet
      */
     public ResourcesPoet addAttr(Attr attr) {
         //<attr name="gravityX" format="float"/>
-        Element element = document.createElement("attr");
+        Element element = document.createElement(Type.ATTR.toString());
         element.setAttribute("name", attr.name);
         if (attr.formats != null && !attr.formats.isEmpty()) {
             String formatString = "";
@@ -111,7 +121,7 @@ public class ResourcesPoet {
                 formatString = formatString + format.toString() + "|";
             }
             //remove last |
-            formatString = formatString.substring(0, formatString.length()-1);
+            formatString = formatString.substring(0, formatString.length() - 1);
             element.setAttribute("format", formatString);
         }
         resourceElement.appendChild(element);
@@ -139,7 +149,7 @@ public class ResourcesPoet {
      */
     public ResourcesPoet addBool(String name, String value) {
         //<bool name="is_production">false</bool>
-        Element element = document.createElement("bool");
+        Element element = document.createElement(Type.BOOL.toString());
         element.setAttribute("name", name);
         element.appendChild(document.createTextNode(value));
         resourceElement.appendChild(element);
@@ -155,7 +165,7 @@ public class ResourcesPoet {
      */
     public ResourcesPoet addColor(String name, String value) {
         //<color name="color_primary">#7770CB</color>
-        Element element = document.createElement("color");
+        Element element = document.createElement(Type.COLOR.toString());
         element.setAttribute("name", name);
         element.appendChild(document.createTextNode(value));
         resourceElement.appendChild(element);
@@ -183,7 +193,7 @@ public class ResourcesPoet {
      */
     public ResourcesPoet addDrawable(String name, String value) {
         //<drawable name="logo">@drawable/logo</drawable>
-        Element bool = document.createElement("drawable");
+        Element bool = document.createElement(Type.DRAWABLE.toString());
         bool.setAttribute("name", name);
         bool.appendChild(document.createTextNode(value));
         resourceElement.appendChild(bool);
@@ -199,7 +209,7 @@ public class ResourcesPoet {
      */
     public ResourcesPoet addDimension(String name, String value) {
         //<drawable name="logo">@drawable/logo</drawable>
-        Element bool = document.createElement("dimen");
+        Element bool = document.createElement(Type.DIMENSION.toString());
         bool.setAttribute("name", name);
         bool.appendChild(document.createTextNode(value));
         resourceElement.appendChild(bool);
@@ -216,7 +226,7 @@ public class ResourcesPoet {
         //        <item
         //                type="id"
         //        name="id_name" />
-        Element bool = document.createElement("item");
+        Element bool = document.createElement(Type.ID.toString());
         bool.setAttribute("name", id);
         bool.setAttribute("type", "id");
         resourceElement.appendChild(bool);
@@ -244,7 +254,7 @@ public class ResourcesPoet {
      */
     public ResourcesPoet addInteger(String name, String value) {
         //<drawable name="logo">@drawable/logo</drawable>
-        Element bool = document.createElement("integer");
+        Element bool = document.createElement(Type.INTEGER.toString());
         bool.setAttribute("name", name);
         bool.appendChild(document.createTextNode(String.valueOf(value)));
         resourceElement.appendChild(bool);
@@ -279,7 +289,7 @@ public class ResourcesPoet {
         //      <item>0</item>
         //      <item>1</item>
         // </integer-array>
-        Element element = document.createElement("integer-array");
+        Element element = document.createElement(Type.INTEGER_ARRAY.toString());
         element.setAttribute("name", name);
         for (String value : values) {
             //Does this mess up the ordering?
@@ -304,7 +314,7 @@ public class ResourcesPoet {
         //        <item quantity="few">Znaleziono %d piosenki.</item>
         //        <item quantity="other">Znaleziono %d piosenek.</item>
         //    </plurals>
-        Element element = document.createElement("plurals");
+        Element element = document.createElement(Type.PLURALS.toString());
         element.setAttribute("name", name);
         for (Plural plural : plurals) {
             //Does this mess up the ordering?
@@ -327,7 +337,7 @@ public class ResourcesPoet {
      */
     public ResourcesPoet addString(String name, String value) {
         //<string name="app_name">Cool</string>
-        Element element = document.createElement("string");
+        Element element = document.createElement(Type.STRING.toString());
         element.setAttribute("name", name);
         element.appendChild(document.createTextNode(value));
         resourceElement.appendChild(element);
@@ -346,7 +356,7 @@ public class ResourcesPoet {
         //      <item>Country</item>
         //      <item>United States</item>
         // </string-array>
-        Element element = document.createElement("string-array");
+        Element element = document.createElement(Type.STRING_ARRAY.toString());
         element.setAttribute("name", name);
         for (String value : values) {
             //Does this mess up the ordering?
@@ -378,7 +388,7 @@ public class ResourcesPoet {
      */
     public ResourcesPoet addStyle(String name, @Nullable String parentRef, @Nullable List<StyleItem> styleItems) {
         //<style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
-        Element element = document.createElement("style");
+        Element element = document.createElement(Type.STYLE.toString());
         element.setAttribute("name", name);
         if (parentRef != null) {
             element.setAttribute("parent", parentRef);
@@ -407,7 +417,7 @@ public class ResourcesPoet {
         //      <item>Country</item>
         //      <item>United States</item>
         // </array>
-        Element element = document.createElement("array");
+        Element element = document.createElement(Type.TYPED_ARRAY.toString());
         element.setAttribute("name", name);
         for (String value : values) {
             Element valueElement = document.createElement("item");
@@ -419,7 +429,27 @@ public class ResourcesPoet {
     }
 
     /**
+     * Remove the resource which matches the name and type
+     * @param type the type of the resource you wish to remove
+     * @param name the name of the element to remove
+     * @return poet
+     */
+    public ResourcesPoet remove(@NotNull Type type, @NotNull String name) {
+        NodeList nodeList = resourceElement.getElementsByTagName(type.toString());
+        for (int i=0; i<nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node instanceof  Element && name.equals(((Element)node).getAttribute("name"))) {
+                //For some reason, this will remove the element and leave a line break in its place
+                //Somewhat unfortunate but I do not think there is much we could do about it
+                resourceElement.removeChild(nodeList.item(i));
+            }
+        }
+        return this;
+    }
+
+    /**
      * Specify if you want the output to be indented or not
+     *
      * @param indent true if you want indentation. false if not. Default is false
      * @return poet
      */
@@ -430,6 +460,7 @@ public class ResourcesPoet {
 
     /**
      * Build the XML to a string
+     *
      * @return the xml as a string
      */
     public String build() {
@@ -442,6 +473,7 @@ public class ResourcesPoet {
     /**
      * Build the XML to a file. You should call {@link File#createNewFile()} or validate that the file exists
      * before calling
+     *
      * @param file the file to output the XML to
      */
     public void build(File file) {
@@ -451,6 +483,7 @@ public class ResourcesPoet {
 
     /**
      * Build the XML to the {@link OutputStream}
+     *
      * @param outputStream the output stream to output the XML to
      */
     public void build(OutputStream outputStream) {
@@ -460,6 +493,7 @@ public class ResourcesPoet {
 
     /**
      * Build the XML to the {@link Writer}
+     *
      * @param writer the writer to output the XML to
      */
     public void build(Writer writer) {

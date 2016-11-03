@@ -40,6 +40,13 @@ or if you want to write it to a string:
 poet.indent(true);
 String resourcesXml = poet.build();
 ```
+You can even start with and modify an existing resource file:
+```java
+File file = new File("some/path/to/file");
+ResourcesPoet poet = ResourcesPoet.create(file)
+    .remove(Type.STRING, "app_name")
+    .addString("app_name", "Even Better App Name");
+```
 
 ## Supported Types
 Most [resource types](https://developer.android.com/guide/topics/resources/available-resources.html) are supported. All look similar in usage:
