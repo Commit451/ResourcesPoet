@@ -11,7 +11,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile 'com.github.Commit451:ResourcesPoet:1.0.0'
+    compile 'com.github.Commit451:ResourcesPoet:latest.release.here'
 }
 ```
 
