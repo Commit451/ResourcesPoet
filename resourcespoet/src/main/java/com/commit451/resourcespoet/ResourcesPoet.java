@@ -448,6 +448,26 @@ public class ResourcesPoet {
     }
 
     /**
+     * Get the value of the current resource of this type and name
+     * @param type the type
+     * @param name the name
+     * @return the value or null if it does not exist
+     */
+    @Nullable
+    public String value(@NotNull Type type, @NotNull String name) {
+        NodeList nodeList = resourceElement.getElementsByTagName(type.toString());
+        for (int i=0; i<nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node instanceof  Element && name.equals(((Element)node).getAttribute("name"))) {
+                //For some reason, this will remove the element and leave a line break in its place
+                //Somewhat unfortunate but I do not think there is much we could do about it
+                return nodeList.item(i).getTextContent();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Specify if you want the output to be indented or not
      *
      * @param indent true if you want indentation. false if not. Default is false
