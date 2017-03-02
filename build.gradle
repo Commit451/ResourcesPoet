@@ -1,11 +1,14 @@
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.commit451.updatewrapper'
 buildscript {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         //check with ./gradlew dependencyUpdates
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
+        classpath 'com.github.Commit451:updatewrapper:1.1.1'
     }
 }
 

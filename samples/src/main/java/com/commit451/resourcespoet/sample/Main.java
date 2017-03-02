@@ -29,13 +29,17 @@ public class Main {
             URL url = Resources.getResource("states.json");
             String statesJson = Resources.toString(url, Charsets.UTF_8);
             List<State> states = jsonAdapter.fromJson(statesJson);
-            ResourcesPoet poet = ResourcesPoet.create();
+
             List<String> stateStrings = new ArrayList<>();
+            List<String> stateCodes = new ArrayList<>();
             for (State state : states) {
                 stateStrings.add(state.name);
+                stateCodes.add(state.abbreviation);
             }
-            poet.addStringArray("states", stateStrings)
-                .indent(true);
+            ResourcesPoet poet = ResourcesPoet.create()
+                    .addStringArray("states", stateStrings)
+                    .addStringArray("state_codes", stateCodes)
+                    .indent(true);
 
             String xml = poet.build();
 

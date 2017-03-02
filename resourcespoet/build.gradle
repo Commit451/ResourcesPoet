@@ -5,7 +5,7 @@ apply plugin: 'java'
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'com.google.guava:guava:19.0'
+    testCompile 'com.google.guava:guava:21.0'
 
     compile 'org.jetbrains:annotations:15.0'
 }
