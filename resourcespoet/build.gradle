@@ -1,13 +1,16 @@
 group 'com.commit451'
 version '1.0'
 
-apply plugin: 'java'
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     testCompile 'junit:junit:4.12'
     testCompile 'com.google.guava:guava:21.0'
-
-    compile 'org.jetbrains:annotations:15.0'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

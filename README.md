@@ -17,41 +17,41 @@ dependencies {
 
 # Basic Usage
 Write variables to the poet like:
-```java
-ResourcesPoet poet = ResourcesPoet.create()
+```kotlin
+val poet = ResourcesPoet.create()
             .addString("app_name", "Test")
             .addColor("color_primary", "#FF0000")
             .addBool("is_cool", true).addComment("This is a comment")
             .addDrawable("logo", "@drawable/logo")
-            .addStyle("AppTheme.Dark", "Base.AppTheme.Dark");
+            .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
             //etc
 ```
 When you are ready for the XML result as a file:
-```java
-File valuesFolder = new File(resFolderPath + File.separator + "values");
-valuesFolder.mkdirs();
-File configXml = new File(valuesFolder, "config.xml");
-configXml.createNewFile();
-poet.build(configXml);
+```kotlin
+val valuesFolder = File(resFolderPath + File.separator + "values")
+valuesFolder.mkdirs()
+val configXml = new File(valuesFolder, "config.xml")
+configXml.createNewFile()
+poet.build(configXml)
 ```
 or if you want to write it to a string:
-```java
+```kotlin
 //indentation makes it easier to look at
-poet.indent(true);
-String resourcesXml = poet.build();
+poet.indent(true)
+val resourcesXml = poet.build()
 ```
 You can even start with and modify an existing resource file:
-```java
-File file = new File("some/path/to/file");
-ResourcesPoet poet = ResourcesPoet.create(file)
+```kotlin
+val file = File("some/path/to/file")
+val poet = ResourcesPoet.create(file)
     .remove(Type.STRING, "app_name")
-    .addString("app_name", "Even Better App Name");
+    .addString("app_name", "Even Better App Name")
 ```
 
 ## Supported Types
 Most [resource types](https://developer.android.com/guide/topics/resources/available-resources.html) are supported. All look similar in usage:
-```java
-ResourcesPoet poet = ResourcesPoet.create()
+```kotlin
+val poet = ResourcesPoet.create()
             .addBool("is_cool", true)
             .addColor("color_primary", "#FF0000")
             .addComment("This is a comment")
@@ -64,14 +64,14 @@ ResourcesPoet poet = ResourcesPoet.create()
             .addString("app_name", "Test")
             .addStringArray("stuff", strings)
             .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
-            .addTypedArray("some_typed_array", typedArray);
+            .addTypedArray("some_typed_array", typedArray)
 ```
 We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense. Maybe one day.
 
 License
 --------
 
-    Copyright 2016 Commit 451
+    Copyright 2017 Commit 451
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
