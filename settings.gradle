@@ -1,3 +1,2 @@
-include ':resourcespoet'
-include ':samples'
+rootProject.name = 'ResourcesPoet'
 

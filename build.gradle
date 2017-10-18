@@ -9,23 +9,27 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        //check with ./gradlew dependencyUpdates
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
         classpath 'com.github.Commit451:updatewrapper:1.1.2'
     }
 }
 
-// See http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html.
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-        tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
-        }
-    }
+group 'com.commit451.resourcespoet'
+version '1.0.0'
+
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    jcenter()
 }
 
-allprojects {
-    repositories {
-        jcenter()
-    }
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    testCompile 'junit:junit:4.12'
+
+    testCompile 'com.google.guava:guava:21.0'
 }
