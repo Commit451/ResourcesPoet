@@ -21,7 +21,8 @@ Write variables to the poet like:
 val poet = ResourcesPoet.create()
             .addString("app_name", "Test")
             .addColor("color_primary", "#FF0000")
-            .addBool("is_cool", true).addComment("This is a comment")
+            .addBool("is_cool", true)
+            .addComment("This is a comment")
             .addDrawable("logo", "@drawable/logo")
             .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
             //etc
