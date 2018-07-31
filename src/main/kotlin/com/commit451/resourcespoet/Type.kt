@@ -3,7 +3,7 @@ package com.commit451.resourcespoet
 /**
  * The various resource types
  *
- * @see [https://developer.android.com/guide/topics/resources/available-resources.html](https://developer.android.com/guide/topics/resources/available-resources.html)
+ * [Available Resources](https://developer.android.com/guide/topics/resources/available-resources.html)
  */
 enum class Type {
 

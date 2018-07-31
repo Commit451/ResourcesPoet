@@ -100,7 +100,7 @@ class ResourcesPoet private constructor() {
     private var indent: Boolean = false
 
     /**
-     * Add an attr to the config
+     * Add an attr to the XML file
      *
      * @param attr the defined attribute
      * @return poet
@@ -123,7 +123,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a boolean to the config
+     * Add a boolean to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -135,7 +135,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a boolean to the config
+     * Add a boolean to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -151,7 +151,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a color to the config
+     * Add a color to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -167,7 +167,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a comment to the config
+     * Add a comment to the XML file
      *
      * @param comment the comment to add
      * @return poet
@@ -179,7 +179,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a drawable to the config
+     * Add a drawable to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -195,7 +195,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a dimension to the config
+     * Add a dimension to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -211,7 +211,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add an id to the config
+     * Add an id to the XML file
      *
      * @param id the id
      * @return poet
@@ -228,7 +228,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add an integer to the config
+     * Add an integer to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -240,7 +240,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add an integer to the config
+     * Add an integer to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -256,7 +256,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add an integer array to the config
+     * Add an integer array to the XML file
      *
      * @param name   the name
      * @param values the value
@@ -272,7 +272,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add an integer array to the config
+     * Add an integer array to the XML file
      *
      * @param name   the name
      * @param values the value
@@ -296,7 +296,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a plural strings array to the config
+     * Add a plural strings array to the XML file
      *
      * @param name    the name
      * @param plurals the plurals
@@ -323,7 +323,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a string to the config
+     * Add a string to the XML file
      *
      * @param name  the name
      * @param value the value
@@ -343,7 +343,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a String array to the config
+     * Add a String array to the XML file
      *
      * @param name   the name
      * @param values the value
@@ -367,7 +367,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a style to the config
+     * Add a style to the XML
      *
      * @param name      the name
      * @param parentRef a ref to the style parent
@@ -394,7 +394,7 @@ class ResourcesPoet private constructor() {
     }
 
     /**
-     * Add a typed array to the config
+     * Add a typed array to the XML
      *
      * @param name   the name
      * @param values the value
@@ -414,6 +414,39 @@ class ResourcesPoet private constructor() {
         }
         resourceElement.appendChild(element)
         return this
+    }
+
+    /**
+     * Add type to the XML file by its type. Currently supported types:
+     *
+     * [Type.BOOL]
+     *
+     * [Type.COLOR]
+     *
+     * [Type.DIMENSION]
+     *
+     * [Type.DRAWABLE]
+     *
+     * [Type.INTEGER]
+     *
+     * [Type.STRING]
+     *
+     * The rest will fail, as they have a special configuration
+     *
+     * @param type the type of the resource you wish to add
+     * @param name the name of the element
+     * @param value the value of the element
+     */
+    fun add(type: Type, name: String, value: String): ResourcesPoet {
+        return when (type) {
+            Type.BOOL -> addBool(name, value)
+            Type.COLOR -> addColor(name, value)
+            Type.DIMENSION -> addDimension(name, value)
+            Type.DRAWABLE -> addDrawable(name, value)
+            Type.INTEGER -> addInteger(name, value)
+            Type.STRING -> addString(name, value)
+            else -> throw IllegalArgumentException("Cannot add type $type. It has a special configuration")
+        }
     }
 
     /**
