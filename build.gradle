@@ -1,7 +1,6 @@
 apply plugin: 'com.github.ben-manes.versions'
-apply plugin: 'com.commit451.updatewrapper'
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.51'
 
     repositories {
         jcenter()
@@ -9,8 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
-        classpath 'com.github.Commit451:updatewrapper:1.2.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
     }
 }
 

@@ -14,4 +14,12 @@ class StringTest {
 
         TestUtil.assertEquals("string.xml", poet)
     }
+
+    @Test
+    fun stringTranslatableTest() {
+        val poet = ResourcesPoet.create()
+                .addString("app_name", "Test", false)
+
+        TestUtil.assertEquals("string_translatable_false.xml", poet)
+    }
 }

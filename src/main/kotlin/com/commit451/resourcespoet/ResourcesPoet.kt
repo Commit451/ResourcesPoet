@@ -2,31 +2,36 @@ package com.commit451.resourcespoet
 
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.xml.sax.SAXException
 import java.io.*
 import java.util.*
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.OutputKeys
-import javax.xml.transform.TransformerConfigurationException
-import javax.xml.transform.TransformerException
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
 /**
- * Helps generate XML configuration files for Android
+ * Helps generate XML resource files for Android
  */
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 class ResourcesPoet private constructor() {
 
     companion object {
 
         private const val ELEMENT_RESOURCES = "resources"
 
-        private var documentBuilderFactory: DocumentBuilderFactory? = null
-        private var documentBuilder: DocumentBuilder? = null
-        private var transformerFactory: TransformerFactory? = null
+        private val documentBuilderFactory: DocumentBuilderFactory by lazy {
+            DocumentBuilderFactory.newInstance()
+        }
+
+        private val documentBuilder: DocumentBuilder by lazy {
+            documentBuilderFactory.newDocumentBuilder()
+        }
+
+        private val transformerFactory: TransformerFactory by lazy {
+            TransformerFactory.newInstance()
+        }
 
         /**
          * Create a new builder
@@ -35,8 +40,7 @@ class ResourcesPoet private constructor() {
          */
         @JvmStatic
         fun create(): ResourcesPoet {
-            init()
-            val document = documentBuilder!!.newDocument()
+            val document = documentBuilder.newDocument()
             val resources = document.createElement(ELEMENT_RESOURCES)
             document.appendChild(resources)
             return create(document, resources)
@@ -52,7 +56,7 @@ class ResourcesPoet private constructor() {
         fun create(file: File): ResourcesPoet {
             try {
                 return create(FileInputStream(file))
-            } catch (e: FileNotFoundException) {
+            } catch (e: Exception) {
                 throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
             }
 
@@ -66,9 +70,8 @@ class ResourcesPoet private constructor() {
          */
         @JvmStatic
         fun create(inputStream: InputStream): ResourcesPoet {
-            init()
             try {
-                val document = documentBuilder!!.parse(inputStream)
+                val document = documentBuilder.parse(inputStream)
                 val resources: Element
                 val list = document.getElementsByTagName(ELEMENT_RESOURCES)
                 if (list == null || list.length == 0) {
@@ -78,9 +81,7 @@ class ResourcesPoet private constructor() {
                     resources = list.item(0) as Element
                 }
                 return create(document, resources)
-            } catch (e: IOException) {
-                throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
-            } catch (e: SAXException) {
+            } catch (e: Exception) {
                 throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
             }
 
@@ -91,20 +92,6 @@ class ResourcesPoet private constructor() {
             poet.document = document
             poet.resourceElement = resourceElement
             return poet
-        }
-
-        private fun init() {
-            if (documentBuilderFactory == null || documentBuilder == null) {
-                try {
-                    documentBuilderFactory = DocumentBuilderFactory.newInstance()
-                    documentBuilder = documentBuilderFactory!!.newDocumentBuilder()
-                } catch (exception: ParserConfigurationException) {
-                    //Welp
-                    throw IllegalStateException("Unable to create a ResourcePoet")
-                }
-
-                transformerFactory = TransformerFactory.newInstance()
-            }
         }
     }
 
@@ -263,7 +250,7 @@ class ResourcesPoet private constructor() {
         //<drawable name="logo">@drawable/logo</drawable>
         val bool = document.createElement(Type.INTEGER.toString())
         bool.setAttribute("name", name)
-        bool.appendChild(document.createTextNode(value.toString()))
+        bool.appendChild(document.createTextNode(value))
         resourceElement.appendChild(bool)
         return this
     }
@@ -342,10 +329,14 @@ class ResourcesPoet private constructor() {
      * @param value the value
      * @return poet
      */
-    fun addString(name: String, value: String): ResourcesPoet {
-        //<string name="app_name">Cool</string>
+    @JvmOverloads
+    fun addString(name: String, value: String, translatable: Boolean = true): ResourcesPoet {
+        //<string name="app_name" translatable="false">Cool</string>
         val element = document.createElement(Type.STRING.toString())
         element.setAttribute("name", name)
+        if (!translatable) {
+            element.setAttribute("translatable", "false")
+        }
         element.appendChild(document.createTextNode(value))
         resourceElement.appendChild(element)
         return this
@@ -433,7 +424,7 @@ class ResourcesPoet private constructor() {
      */
     fun remove(type: Type, name: String): ResourcesPoet {
         val nodeList = resourceElement.getElementsByTagName(type.toString())
-        for (i in 0..nodeList.length - 1) {
+        for (i in 0 until nodeList.length) {
             val node = nodeList.item(i)
             if (node is Element && name == node.getAttribute("name")) {
                 //For some reason, this will remove the element and leave a line break in its place
@@ -452,7 +443,7 @@ class ResourcesPoet private constructor() {
      */
     fun value(type: Type, name: String): String? {
         val nodeList = resourceElement.getElementsByTagName(type.toString())
-        for (i in 0..nodeList.length - 1) {
+        for (i in 0 until nodeList.length) {
             val node = nodeList.item(i)
             if (node is Element && name == node.getAttribute("name")) {
                 //For some reason, this will remove the element and leave a line break in its place
@@ -524,18 +515,15 @@ class ResourcesPoet private constructor() {
      */
     private fun build(result: StreamResult) {
         try {
-            val transformer = transformerFactory!!.newTransformer()
+            val transformer = transformerFactory.newTransformer()
             transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8")
             if (indent) {
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes")
             }
             val source = DOMSource(document)
             transformer.transform(source, result)
-        } catch (e: TransformerConfigurationException) {
-            throw RuntimeException("Something is seriously wrong with the ResourcePoet configuration")
-        } catch (e: TransformerException) {
-            throw RuntimeException("Transformer exception when trying to build result")
+        } catch (e: Exception) {
+            throw RuntimeException("Something is seriously wrong with the ResourcePoet configuration. Cannot build the result", e)
         }
-
     }
 }
