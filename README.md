@@ -1,31 +1,32 @@
 # ResourcePoet
-Like [JavaPoet](https://github.com/square/javapoet), but for Android XML Resources
+Kotlin API for generating Android XML Resources
 
 [![Build Status](https://travis-ci.org/Commit451/ResourcesPoet.svg?branch=master)](https://travis-ci.org/Commit451/ResourcesPoet)
 [![](https://jitpack.io/v/Commit451/ResourcesPoet.svg)](https://jitpack.io/#Commit451/ResourcesPoet)
 
-# Gradle
+## Gradle
 ```groovy
 repositories {
-    jcenter()
+    ...
     maven { url "https://jitpack.io" }
 }
+
 dependencies {
-    compile 'com.github.Commit451:ResourcesPoet:latest.release.here'
+    implementation 'com.github.Commit451:ResourcesPoet:latest.release.here'
 }
 ```
 
-# Basic Usage
+## Basic Usage
 Write variables to the poet like:
 ```kotlin
 val poet = ResourcesPoet.create()
-            .addString("app_name", "Test")
-            .addColor("color_primary", "#FF0000")
-            .addBool("is_cool", true)
-            .addComment("This is a comment")
-            .addDrawable("logo", "@drawable/logo")
-            .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
-            //etc
+    .addString("app_name", "Test")
+    .addColor("color_primary", "#FF0000")
+    .addBool("is_cool", true)
+    .addComment("This is a comment")
+    .addDrawable("logo", "@drawable/logo")
+    .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
+    //etc
 ```
 When you are ready for the XML result as a file:
 ```kotlin
@@ -53,26 +54,26 @@ val poet = ResourcesPoet.create(file)
 Most [resource types](https://developer.android.com/guide/topics/resources/available-resources.html) are supported. All look similar in usage:
 ```kotlin
 val poet = ResourcesPoet.create()
-            .addBool("is_cool", true)
-            .addColor("color_primary", "#FF0000")
-            .addComment("This is a comment")
-            .addDimension("margin", "2dp")
-            .addDrawable("logo", "@drawable/logo")
-            .addId("some_id")
-            .addInteger("number", 0)
-            .addIntegerArray("numbers", numbers)
-            .addPlurals("songs", plurals)
-            .addString("app_name", "Test")
-            .addStringArray("stuff", strings)
-            .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
-            .addTypedArray("some_typed_array", typedArray)
+    .addBool("is_cool", true)
+    .addColor("color_primary", "#FF0000")
+    .addComment("This is a comment")
+    .addDimension("margin", "2dp")
+    .addDrawable("logo", "@drawable/logo")
+    .addId("some_id")
+    .addInteger("number", 0)
+    .addIntegerArray("numbers", numbers)
+    .addPlurals("songs", plurals)
+    .addString("app_name", "Test")
+    .addStringArray("stuff", strings)
+    .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
+    .addTypedArray("some_typed_array", typedArray)
 ```
-We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense. Maybe one day.
+We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense.
 
 License
 --------
 
-    Copyright 2017 Commit 451
+    Copyright 2018 Commit 451
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
