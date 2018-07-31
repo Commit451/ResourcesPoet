@@ -48,6 +48,7 @@ val file = File("some/path/to/file")
 val poet = ResourcesPoet.create(file)
     .remove(Type.STRING, "app_name")
     .addString("app_name", "Even Better App Name")
+    .add(Type.BOOL, "is_cool", "true")
 ```
 
 ## Supported Types

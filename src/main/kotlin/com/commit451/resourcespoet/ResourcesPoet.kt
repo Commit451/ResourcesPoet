@@ -431,11 +431,12 @@ class ResourcesPoet private constructor() {
      *
      * [Type.STRING]
      *
-     * The rest will fail, as they have a special configuration
+     * Any other type will throw an [IllegalArgumentException], as they have a special configuration
      *
      * @param type the type of the resource you wish to add
      * @param name the name of the element
      * @param value the value of the element
+     * @return poet
      */
     fun add(type: Type, name: String, value: String): ResourcesPoet {
         return when (type) {
@@ -451,6 +452,7 @@ class ResourcesPoet private constructor() {
 
     /**
      * Remove the resource which matches the name and type
+     *
      * @param type the type of the resource you wish to remove
      * @param name the name of the element to remove
      * @return poet
@@ -470,6 +472,7 @@ class ResourcesPoet private constructor() {
 
     /**
      * Get the value of the current resource of this type and name
+     *
      * @param type the type
      * @param name the name
      * @return the value or null if it does not exist
