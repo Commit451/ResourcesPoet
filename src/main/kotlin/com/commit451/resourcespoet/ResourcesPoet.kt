@@ -2,10 +2,12 @@ package com.commit451.resourcespoet
 
 import org.w3c.dom.Document
 import org.w3c.dom.Element
+import org.xml.sax.SAXException
 import java.io.*
 import java.util.*
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
@@ -15,22 +17,25 @@ import javax.xml.transform.stream.StreamResult
  * Helps generate XML resource files for Android
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-class ResourcesPoet private constructor() {
+class ResourcesPoet private constructor(
+        private val document: Document,
+        private val resourceElement: Element,
+        private var indent: Boolean = INDENT_DEFAULT
+) {
 
     companion object {
 
         private const val ELEMENT_RESOURCES = "resources"
+        private const val INDENT_DEFAULT = false
 
-        private val documentBuilderFactory: DocumentBuilderFactory by lazy {
-            DocumentBuilderFactory.newInstance()
-        }
+        private val transformerFactory: TransformerFactory by lazy { TransformerFactory.newInstance() }
 
         private val documentBuilder: DocumentBuilder by lazy {
-            documentBuilderFactory.newDocumentBuilder()
-        }
-
-        private val transformerFactory: TransformerFactory by lazy {
-            TransformerFactory.newInstance()
+            try {
+                DocumentBuilderFactory.newInstance().newDocumentBuilder()
+            } catch (exception: ParserConfigurationException) {
+                throw IllegalStateException("Unable to create a ResourcePoet")
+            }
         }
 
         /**
@@ -39,11 +44,11 @@ class ResourcesPoet private constructor() {
          * @return poet
          */
         @JvmStatic
-        fun create(): ResourcesPoet {
+        fun create(indent: Boolean = INDENT_DEFAULT): ResourcesPoet {
             val document = documentBuilder.newDocument()
             val resources = document.createElement(ELEMENT_RESOURCES)
             document.appendChild(resources)
-            return create(document, resources)
+            return ResourcesPoet(document, resources, indent)
         }
 
         /**
@@ -53,13 +58,12 @@ class ResourcesPoet private constructor() {
          * @return poet
          */
         @JvmStatic
-        fun create(file: File): ResourcesPoet {
+        fun create(file: File, indent: Boolean = INDENT_DEFAULT): ResourcesPoet {
             try {
-                return create(FileInputStream(file))
-            } catch (e: Exception) {
+                return create(FileInputStream(file), indent)
+            } catch (e: FileNotFoundException) {
                 throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
             }
-
         }
 
         /**
@@ -69,7 +73,7 @@ class ResourcesPoet private constructor() {
          * @return poet
          */
         @JvmStatic
-        fun create(inputStream: InputStream): ResourcesPoet {
+        fun create(inputStream: InputStream, indent: Boolean = INDENT_DEFAULT): ResourcesPoet {
             try {
                 val document = documentBuilder.parse(inputStream)
                 val resources: Element
@@ -80,24 +84,14 @@ class ResourcesPoet private constructor() {
                 } else {
                     resources = list.item(0) as Element
                 }
-                return create(document, resources)
-            } catch (e: Exception) {
+                return ResourcesPoet(document, resources, indent)
+            } catch (e: IOException) {
+                throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
+            } catch (e: SAXException) {
                 throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
             }
-
-        }
-
-        private fun create(document: Document, resourceElement: Element): ResourcesPoet {
-            val poet = ResourcesPoet()
-            poet.document = document
-            poet.resourceElement = resourceElement
-            return poet
         }
     }
-
-    private lateinit var document: Document
-    private lateinit var resourceElement: Element
-    private var indent: Boolean = false
 
     /**
      * Add an attr to the XML file
