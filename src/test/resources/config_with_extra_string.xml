@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-<bool name="is_cool">true</bool>
-<color name="color_primary">#FF0000</color>
-<!--This is a comment-->
-<dimen name="margin">2dp</dimen>
-<drawable name="logo">@drawable/logo</drawable>
-<item name="some_id" type="id"/>
-<integer name="number">0</integer>
-<integer-array name="numbers">
-<item>1</item>
-<item>2</item>
-</integer-array>
-<plurals name="songs">
-<item quantity="one">%d song</item>
-<item quantity="other">%d songs</item>
-</plurals>
-<string name="app_name">Test</string>
-<string-array name="stuff">
-<item>One</item>
-<item>Two</item>
-</string-array>
-<style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
-<array name="some_typed_array">
-<item>One</item>
-<item>Two</item>
-</array>
+    <bool name="is_cool">true</bool>
+    <color name="color_primary">#FF0000</color>
+    <!--This is a comment-->
+    <dimen name="margin">2dp</dimen>
+    <drawable name="logo">@drawable/logo</drawable>
+    <item name="some_id" type="id"/>
+    <integer name="number">0</integer>
+    <integer-array name="numbers">
+        <item>1</item>
+        <item>2</item>
+    </integer-array>
+    <plurals name="songs">
+        <item quantity="one">%d song</item>
+        <item quantity="other">%d songs</item>
+    </plurals>
+    <string name="app_name">Test</string>
+    <string-array name="stuff">
+        <item>One</item>
+        <item>Two</item>
+    </string-array>
+    <style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
+    <array name="some_typed_array">
+        <item>One</item>
+        <item>Two</item>
+    </array>
 <string name="added">this one was added</string>
 </resources>
