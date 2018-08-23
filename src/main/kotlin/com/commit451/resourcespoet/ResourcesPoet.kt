@@ -555,6 +555,7 @@ class ResourcesPoet private constructor() {
             transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8")
             if (indent) {
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes")
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
             }
             val source = DOMSource(document)
             transformer.transform(source, result)

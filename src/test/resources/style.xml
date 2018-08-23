@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-<style name="AppTheme.Dark" parent="Base.AppTheme.Dark">
-<item name="android:windowBackground">@android:color/white</item>
-<item name="colorPrimaryDark">@android:color/black</item>
-</style>
+  <style name="AppTheme.Dark" parent="Base.AppTheme.Dark">
+    <item name="android:windowBackground">@android:color/white</item>
+    <item name="colorPrimaryDark">@android:color/black</item>
+  </style>
 </resources>

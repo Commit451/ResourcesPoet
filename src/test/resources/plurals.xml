@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-<plurals name="songs">
-<item quantity="one">%d song</item>
-<item quantity="other">%d songs</item>
-</plurals>
+  <plurals name="songs">
+    <item quantity="one">%d song</item>
+    <item quantity="other">%d songs</item>
+  </plurals>
 </resources>

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-<drawable name="logo">@drawable/logo</drawable>
+  <drawable name="logo">@drawable/logo</drawable>
 </resources>
