@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-  <dimen name="margin">2dp</dimen>
+    <dimen name="margin">2dp</dimen>
 </resources>
