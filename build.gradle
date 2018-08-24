@@ -1,10 +1,10 @@
 apply plugin: 'com.github.ben-manes.versions'
+
 buildscript {
-    ext.kotlin_version = '1.2.51'
+    ext.kotlin_version = '1.2.61'
 
     repositories {
         jcenter()
-        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -12,11 +12,11 @@ buildscript {
     }
 }
 
-group 'com.commit451.resourcespoet'
-version '1.0.0'
-
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
+
+version = '2.1.0'
+group = 'com.commit451'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -30,5 +30,5 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
-    testImplementation 'com.google.guava:guava:25.1-jre'
+    testImplementation 'com.google.guava:guava:26.0-jre'
 }
