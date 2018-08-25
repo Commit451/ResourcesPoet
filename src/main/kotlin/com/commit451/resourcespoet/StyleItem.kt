@@ -5,4 +5,4 @@ package com.commit451.resourcespoet
  *
  * <item name="android:windowBackground">@android:color/black</item>
  */
-class StyleItem(var name: String, var value: String)
+data class StyleItem(val name: String, val value: String)
