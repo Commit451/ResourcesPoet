@@ -5,7 +5,7 @@ import org.gradle.jvm.tasks.Jar
 plugins {
     `build-scan`
     `maven-publish`
-    kotlin("jvm") version "1.2.70"
+    kotlin("jvm") version "1.3.10"
     id("org.jetbrains.dokka") version "0.9.17"
     id("com.jfrog.bintray") version "1.8.4"
     id("com.github.ben-manes.versions") version "0.20.0"
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", "1.2.70"))
+    implementation(kotlin("stdlib", "1.3.10"))
     testImplementation("junit:junit:4.12")
     testImplementation("com.google.guava:guava:26.0-jre")
 }
@@ -40,18 +40,18 @@ val dokkaJar by tasks.creating(org.gradle.api.tasks.bundling.Jar::class) {
 }
 
 // Create sources Jar from main kotlin sources
-val sourcesJar by tasks.creating(org.gradle.api.tasks.bundling.Jar::class) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-    description = "Assembles sources JAR"
-    classifier = "sources"
-    from(java.sourceSets["main"].allSource)
-}
+//val sourcesJar by tasks.creating(org.gradle.api.tasks.bundling.Jar::class) {
+//    group = JavaBasePlugin.DOCUMENTATION_GROUP
+//    description = "Assembles sources JAR"
+//    classifier = "sources"
+//    from(java.sourceSets["main"].allSource)
+//}
 
 publishing {
     publications {
         create("default", MavenPublication::class.java) {
             from(components["java"])
-            artifact(sourcesJar)
+            //artifact(sourcesJar)
             artifact(dokkaJar)
         }
     }
