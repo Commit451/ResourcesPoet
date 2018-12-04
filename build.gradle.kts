@@ -21,7 +21,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib", "1.3.10"))
     testImplementation("junit:junit:4.12")
-    testImplementation("com.google.guava:guava:26.0-jre")
+    testImplementation("com.google.guava:guava:27.0.1-jre")
 }
 
 val dokka by tasks.getting(DokkaTask::class) {
