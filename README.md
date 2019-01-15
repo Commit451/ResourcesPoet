@@ -20,22 +20,33 @@ val poet = ResourcesPoet.create()
     .addComment("This is a comment")
     .addDrawable("logo", "@drawable/logo")
     .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
-    //etc
+    // etc
+    .indent(true)
+val xml: String = poet.build()
+println(xml)
 ```
-When you are ready for the XML result as a file:
+which would output this XML:
+```xml
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="app_name">Test</string>
+    <color name="color_primary">#FF0000</color>
+    <bool name="is_cool">true</bool>
+    <!--This is a comment-->
+    <drawable name="logo">@drawable/logo</drawable>
+    <style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
+</resources>
+```
+
+To get the XML result as a file:
 ```kotlin
 val valuesFolder = File(resFolderPath + File.separator + "values")
 valuesFolder.mkdirs()
-val configXml = new File(valuesFolder, "config.xml")
+val configXml = File(valuesFolder, "config.xml")
 configXml.createNewFile()
 poet.build(configXml)
 ```
-or if you want to write it to a string:
-```kotlin
-//indentation makes it easier to look at
-poet.indent(true)
-val resourcesXml = poet.build()
-```
+
 You can even start with and modify an existing resource file:
 ```kotlin
 val file = File("some/path/to/file")
