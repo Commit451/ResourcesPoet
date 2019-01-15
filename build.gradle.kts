@@ -1,11 +1,12 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.gradle.jvm.tasks.Jar
+import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     `build-scan`
     `maven-publish`
-    kotlin("jvm") version "1.3.10"
+    kotlin("jvm") version "1.3.11"
     id("org.jetbrains.dokka") version "0.9.17"
     id("com.jfrog.bintray") version "1.8.4"
     id("com.github.ben-manes.versions") version "0.20.0"
@@ -19,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", "1.3.10"))
+    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
     testImplementation("junit:junit:4.12")
     testImplementation("com.google.guava:guava:27.0.1-jre")
 }
