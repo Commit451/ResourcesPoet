@@ -6,7 +6,7 @@ Kotlin API for generating Android XML Resources
 ## Gradle
 ```groovy
 dependencies {
-    implementation 'com.commit451:resourcespoet:latest.release.here'
+    implementation("com.commit451:resourcespoet:latest.release.here")
 }
 ```
 
