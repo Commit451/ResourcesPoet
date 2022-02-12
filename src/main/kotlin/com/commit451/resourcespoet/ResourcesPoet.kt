@@ -18,9 +18,9 @@ import javax.xml.transform.stream.StreamResult
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class ResourcesPoet private constructor(
-        private val document: Document,
-        private val resourceElement: Element,
-        private var indent: Boolean = INDENT_DEFAULT
+    private val document: Document,
+    private val resourceElement: Element,
+    private var indent: Boolean = INDENT_DEFAULT
 ) {
 
     companion object {
@@ -62,7 +62,10 @@ class ResourcesPoet private constructor(
             try {
                 return create(FileInputStream(file), indent)
             } catch (e: FileNotFoundException) {
-                throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
+                throw IllegalStateException(
+                    "Unable to parse the resource file you passed. Make sure it is properly formatted",
+                    e
+                )
             }
         }
 
@@ -86,9 +89,15 @@ class ResourcesPoet private constructor(
                 }
                 return ResourcesPoet(document, resources, indent)
             } catch (e: IOException) {
-                throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
+                throw IllegalStateException(
+                    "Unable to parse the resource file you passed. Make sure it is properly formatted",
+                    e
+                )
             } catch (e: SAXException) {
-                throw IllegalStateException("Unable to parse the resource file you passed. Make sure it is properly formatted", e)
+                throw IllegalStateException(
+                    "Unable to parse the resource file you passed. Make sure it is properly formatted",
+                    e
+                )
             }
         }
     }
@@ -554,7 +563,10 @@ class ResourcesPoet private constructor(
             val source = DOMSource(document)
             transformer.transform(source, result)
         } catch (e: Exception) {
-            throw RuntimeException("Something is seriously wrong with the ResourcePoet configuration. Cannot build the result", e)
+            throw RuntimeException(
+                "Something is seriously wrong with the ResourcePoet configuration. Cannot build the result",
+                e
+            )
         }
     }
 }

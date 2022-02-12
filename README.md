@@ -1,8 +1,6 @@
 # ResourcePoet
 Kotlin API for generating Android XML Resources
 
-[![Build Status](https://travis-ci.org/Commit451/ResourcesPoet.svg?branch=master)](https://travis-ci.org/Commit451/ResourcesPoet) ![Bintray](https://img.shields.io/bintray/v/commit451/maven/resourcespoet.svg)
-
 ## Gradle
 ```groovy
 dependencies {

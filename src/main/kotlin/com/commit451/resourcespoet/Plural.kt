@@ -1,3 +1,5 @@
+@file:Suppress("EnumEntryName", "unused")
+
 package com.commit451.resourcespoet
 
 /**
