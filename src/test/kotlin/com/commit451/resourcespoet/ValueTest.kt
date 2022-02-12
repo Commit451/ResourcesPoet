@@ -11,7 +11,6 @@ import java.io.File
 class ValueTest {
 
     @Test
-    @Throws(Exception::class)
     fun valueTest() {
         val classLoader = javaClass.classLoader
         val file = File(classLoader.getResource("bool.xml")!!.file)
