@@ -23,6 +23,7 @@ jobs:
       - name: Retrieve version
         run: |
           echo "VERSION_NAME=$(cat gradle.properties | grep -w "VERSION_NAME" | cut -d'=' -f2)" >> $GITHUB_ENV
+
       - name: Publish snapshot
         run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon --no-parallel
         if: endsWith(env.VERSION_NAME, '-SNAPSHOT')

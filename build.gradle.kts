@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 buildscript {
     repositories {
         mavenCentral()
@@ -28,7 +26,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
-    testImplementation("junit:junit:4.12")
-    testImplementation("com.google.guava:guava:27.0.1-jre")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("com.google.guava:guava:31.0.1-jre")
 }
