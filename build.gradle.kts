@@ -20,6 +20,7 @@ java {
 }
 
 apply(plugin = "com.vanniktech.maven.publish")
+apply(from = "sonatype.gradle")
 
 repositories {
     mavenCentral()
@@ -29,5 +30,3 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.guava:guava:31.0.1-jre")
 }
-
-apply(from = "sonatype.gradle")
