@@ -29,3 +29,5 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.guava:guava:31.0.1-jre")
 }
+
+apply(from = "sonatype.gradle")
