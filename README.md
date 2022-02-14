@@ -1,6 +1,5 @@
 # ResourcePoet
 Kotlin API for generating Android XML Resources
-
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.commit451/ResourcesPoet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.commit451/ResourcesPoet)
 
 ## Gradle
