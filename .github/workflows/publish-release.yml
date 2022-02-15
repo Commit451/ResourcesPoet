@@ -21,7 +21,7 @@ jobs:
           java-version: 11
 
       - name: Set version
-        run: sed -i 's/VERSION_NAME=0.0.1/VERSION_NAME=$GITHUB_REF_NAME/' gradle.properties
+        run: sed -i "s/VERSION_NAME=0.0.1/VERSION_NAME=$GITHUB_REF_NAME/" gradle.properties
 
       - name: Upload release
         run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon --no-parallel
