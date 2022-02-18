@@ -25,7 +25,11 @@ class ResourcesPoet private constructor(
 
     companion object {
 
-        private const val ELEMENT_RESOURCES = "resources"
+        enum class ELEMENT constructor(val elementName: String) {
+            RESOURCES("resources"),
+            FONT_FAMILIES("font-family")
+        }
+
         private const val INDENT_DEFAULT = false
 
         private val transformerFactory: TransformerFactory by lazy { TransformerFactory.newInstance() }
@@ -44,11 +48,18 @@ class ResourcesPoet private constructor(
          * @return poet
          */
         @JvmStatic
-        fun create(indent: Boolean = INDENT_DEFAULT): ResourcesPoet {
+        fun create(indent: Boolean = INDENT_DEFAULT, elementType: ELEMENT = ELEMENT.RESOURCES): ResourcesPoet {
             val document = documentBuilder.newDocument()
-            val resources = document.createElement(ELEMENT_RESOURCES)
-            document.appendChild(resources)
-            return ResourcesPoet(document, resources, indent)
+            val element = document.createElement(elementType.elementName)
+            if (elementType == ELEMENT.FONT_FAMILIES) {
+                element.setAttributeNS(
+                    "http://www.w3.org/2000/xmlns/",
+                    "xmlns:android",
+                    "http://schemas.android.com/apk/res/android"
+                )
+            }
+            document.appendChild(element)
+            return ResourcesPoet(document, element, indent)
         }
 
         /**
@@ -76,18 +87,22 @@ class ResourcesPoet private constructor(
          * @return poet
          */
         @JvmStatic
-        fun create(inputStream: InputStream, indent: Boolean = INDENT_DEFAULT): ResourcesPoet {
+        fun create(
+            inputStream: InputStream,
+            indent: Boolean = INDENT_DEFAULT,
+            elementType: ELEMENT = ELEMENT.RESOURCES
+        ): ResourcesPoet {
             try {
                 val document = documentBuilder.parse(inputStream)
-                val resources: Element
-                val list = document.getElementsByTagName(ELEMENT_RESOURCES)
+                val element: Element
+                val list = document.getElementsByTagName(elementType.elementName)
                 if (list == null || list.length == 0) {
-                    resources = document.createElement(ELEMENT_RESOURCES)
-                    document.appendChild(resources)
+                    element = document.createElement(elementType.elementName)
+                    document.appendChild(element)
                 } else {
-                    resources = list.item(0) as Element
+                    element = list.item(0) as Element
                 }
-                return ResourcesPoet(document, resources, indent)
+                return ResourcesPoet(document, element, indent)
             } catch (e: IOException) {
                 throw IllegalStateException(
                     "Unable to parse the resource file you passed. Make sure it is properly formatted",
@@ -415,6 +430,21 @@ class ResourcesPoet private constructor(
             valueElement.appendChild(document.createTextNode(value))
             element.appendChild(valueElement)
         }
+        resourceElement.appendChild(element)
+        return this
+    }
+
+    /**
+     * Add a font family attr
+     *
+     * @param fontFamily the defined Font Family
+     * @return poet
+     */
+    fun addFontFamily(fontFamily: FontFamily): ResourcesPoet {
+        val element = document.createElement(Type.FONT.toString())
+        element.setAttribute("android:fontStyle", fontFamily.fontStyle)
+        element.setAttribute("android:fontWeight", fontFamily.fontWeight)
+        element.setAttribute("android:font", fontFamily.font)
         resourceElement.appendChild(element)
         return this
     }
