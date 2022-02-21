@@ -19,7 +19,8 @@ enum class Type(private val xmlName: String) {
     STRING("string"),
     STRING_ARRAY("string-array"),
     STYLE("style"),
-    TYPED_ARRAY("array");
+    TYPED_ARRAY("array"),
+    FONT("font");
 
     override fun toString() = xmlName
 }
