@@ -1,7 +1,6 @@
 package com.commit451.resourcespoet
 
 import org.junit.Test
-import java.util.*
 
 /**
  * Tests the resources creation
@@ -15,7 +14,7 @@ class PluralsTest {
         plurals.add(Plural(Plural.Quantity.other, "%d songs"))
 
         val poet = ResourcesPoet.create()
-                .addPlurals("songs", plurals)
+            .addPlurals("songs", plurals)
 
         TestUtil.assertEquals("plurals.xml", poet)
     }

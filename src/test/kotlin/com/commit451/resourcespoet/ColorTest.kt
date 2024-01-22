@@ -10,7 +10,7 @@ class ColorTest {
     @Test
     fun colorTest() {
         val poet = ResourcesPoet.create()
-                .addColor("color_primary", "#FF0000")
+            .addColor("color_primary", "#FF0000")
 
         TestUtil.assertEquals("color.xml", poet)
     }

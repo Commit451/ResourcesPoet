@@ -1,7 +1,6 @@
 package com.commit451.resourcespoet
 
 import org.junit.Test
-import java.util.*
 
 /**
  * Tests the resources creation
@@ -15,7 +14,7 @@ class TypedArrayTest {
         strings.add("Two")
 
         val poet = ResourcesPoet.create()
-                .addTypedArray("some_typed_array", strings)
+            .addTypedArray("some_typed_array", strings)
 
         TestUtil.assertEquals("typed_array.xml", poet)
     }

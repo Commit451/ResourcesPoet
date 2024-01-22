@@ -10,7 +10,7 @@ class DrawableTest {
     @Test
     fun drawableTest() {
         val poet = ResourcesPoet.create()
-                .addDrawable("logo", "@drawable/logo")
+            .addDrawable("logo", "@drawable/logo")
 
         TestUtil.assertEquals("drawable.xml", poet)
     }

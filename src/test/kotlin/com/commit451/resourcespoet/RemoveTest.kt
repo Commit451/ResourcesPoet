@@ -10,12 +10,13 @@ import java.io.File
  */
 class RemoveTest {
 
-    @Test @Ignore("broken due to indentations. Fix it!")
+    @Test
+    @Ignore("broken due to indentations. Fix it!")
     fun removeTest() {
         val classLoader = javaClass.classLoader
         val file = File(classLoader.getResource("remove_before.xml")!!.file)
         val poet = ResourcesPoet.create(file)
-                .remove(Type.STRING, "red")
+            .remove(Type.STRING, "red")
 
         TestUtil.assertEquals("remove_after.xml", poet)
     }

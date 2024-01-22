@@ -3,7 +3,6 @@ package com.commit451.resourcespoet
 import org.junit.Ignore
 import org.junit.Test
 import java.io.File
-import java.util.*
 
 /**
  * Tests the resources creation
@@ -30,29 +29,30 @@ class ConfigTest {
         typedArray.add("Two")
 
         val poet = ResourcesPoet.create()
-                .addBool("is_cool", true)
-                .addColor("color_primary", "#FF0000")
-                .addComment("This is a comment")
-                .addDimension("margin", "2dp")
-                .addDrawable("logo", "@drawable/logo")
-                .addId("some_id")
-                .addInteger("number", 0)
-                .addIntegerArray("numbers", numbers)
-                .addPlurals("songs", plurals)
-                .addString("app_name", "Test")
-                .addStringArray("stuff", strings)
-                .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
-                .addTypedArray("some_typed_array", typedArray)
+            .addBool("is_cool", true)
+            .addColor("color_primary", "#FF0000")
+            .addComment("This is a comment")
+            .addDimension("margin", "2dp")
+            .addDrawable("logo", "@drawable/logo")
+            .addId("some_id")
+            .addInteger("number", 0)
+            .addIntegerArray("numbers", numbers)
+            .addPlurals("songs", plurals)
+            .addString("app_name", "Test")
+            .addStringArray("stuff", strings)
+            .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
+            .addTypedArray("some_typed_array", typedArray)
 
         TestUtil.assertEquals("config.xml", poet)
     }
 
-    @Test @Ignore("broken due to indentations. Fix it!")
+    @Test
+    @Ignore("broken due to indentations. Fix it!")
     fun addToExistingFile() {
         val classLoader = javaClass.classLoader
         val file = File(classLoader.getResource("config.xml")!!.file)
         val poet = ResourcesPoet.create(file)
-                .addString("added", "this one was added")
+            .addString("added", "this one was added")
 
         TestUtil.assertEquals("config_with_extra_string.xml", poet)
     }

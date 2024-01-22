@@ -10,7 +10,7 @@ class IdTest {
     @Test
     fun idTest() {
         val poet = ResourcesPoet.create()
-                .addId("some_id")
+            .addId("some_id")
 
         TestUtil.assertEquals("id.xml", poet)
     }

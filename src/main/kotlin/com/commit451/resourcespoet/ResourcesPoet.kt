@@ -4,7 +4,6 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.xml.sax.SAXException
 import java.io.*
-import java.util.*
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
@@ -25,7 +24,7 @@ class ResourcesPoet private constructor(
 
     companion object {
 
-        enum class ELEMENT constructor(val elementName: String) {
+        enum class ELEMENT(val elementName: String) {
             RESOURCES("resources"),
             FONT_FAMILIES("font-family")
         }

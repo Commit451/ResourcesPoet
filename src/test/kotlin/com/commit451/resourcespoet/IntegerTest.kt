@@ -10,7 +10,7 @@ class IntegerTest {
     @Test
     fun integerTest() {
         val poet = ResourcesPoet.create()
-                .addInteger("number", 0)
+            .addInteger("number", 0)
 
         TestUtil.assertEquals("integer.xml", poet)
     }

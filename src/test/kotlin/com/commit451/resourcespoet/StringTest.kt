@@ -10,7 +10,7 @@ class StringTest {
     @Test
     fun stringTest() {
         val poet = ResourcesPoet.create()
-                .addString("app_name", "Test")
+            .addString("app_name", "Test")
 
         TestUtil.assertEquals("string.xml", poet)
     }
@@ -18,7 +18,7 @@ class StringTest {
     @Test
     fun stringTranslatableTest() {
         val poet = ResourcesPoet.create()
-                .addString("app_name", "Test", false)
+            .addString("app_name", "Test", false)
 
         TestUtil.assertEquals("string_translatable_false.xml", poet)
     }

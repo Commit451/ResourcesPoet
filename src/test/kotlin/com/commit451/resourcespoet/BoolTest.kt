@@ -10,7 +10,7 @@ class BoolTest {
     @Test
     fun boolTest() {
         val poet = ResourcesPoet.create()
-                .addBool("is_cool", true)
+            .addBool("is_cool", true)
 
         TestUtil.assertEquals("bool.xml", poet)
     }

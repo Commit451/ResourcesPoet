@@ -10,7 +10,7 @@ class Attr {
     var name: String
     val formats = mutableListOf<Format>()
 
-    enum class Format constructor(private val attrName: String) {
+    enum class Format(private val attrName: String) {
         BOOLEAN("boolean"),
         FLOAT("float"),
         COLOR("color"),

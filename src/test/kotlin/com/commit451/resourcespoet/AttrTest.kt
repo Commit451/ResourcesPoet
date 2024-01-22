@@ -1,7 +1,6 @@
 package com.commit451.resourcespoet
 
 import org.junit.Test
-import java.util.*
 
 /**
  * Tests the resources creation
@@ -15,7 +14,7 @@ class AttrTest {
         formats.add(Attr.Format.REFERENCE)
         val attr = Attr("font", formats)
         val poet = ResourcesPoet.create()
-                .addAttr(attr)
+            .addAttr(attr)
 
         TestUtil.assertEquals("attr.xml", poet)
     }

@@ -1,32 +1,30 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
-    }
-}
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    kotlin("jvm") version "1.6.10"
-    id("com.github.ben-manes.versions") version "0.42.0"
+    alias(libs.plugins.org.jetbrains.kotlin)
+    alias(libs.plugins.com.vanniktech.publish)
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
-apply(plugin = "com.vanniktech.maven.publish")
-apply(from = "sonatype.gradle")
-
-repositories {
-    mavenCentral()
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.guava:guava:31.0.1-jre")
+    testImplementation(libs.junit)
+    testImplementation(libs.guava)
+}
+
+mavenPublishing {
+    configure(
+        JavaLibrary(
+            javadocJar = JavadocJar.Javadoc(),
+            sourcesJar = true,
+        )
+    )
+    publishToMavenCentral(SonatypeHost.S01)
+    if (System.getenv("RELEASE_SIGNING_ENABLED") == "true") {
+        signAllPublications()
+    }
 }
