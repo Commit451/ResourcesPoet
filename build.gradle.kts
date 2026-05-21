@@ -1,19 +1,20 @@
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    alias(libs.plugins.org.jetbrains.kotlin)
-    alias(libs.plugins.com.vanniktech.publish)
+    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.vanniktech.publish)
 }
 
+group = findProperty("GROUP") as String
+version = findProperty("VERSION_NAME") as String
+
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
     testImplementation(libs.junit)
-    testImplementation(libs.guava)
 }
 
 mavenPublishing {
@@ -23,7 +24,7 @@ mavenPublishing {
             sourcesJar = true,
         )
     )
-    publishToMavenCentral(SonatypeHost.S01)
+    publishToMavenCentral(automaticRelease = true)
     if (System.getenv("RELEASE_SIGNING_ENABLED") == "true") {
         signAllPublications()
     }

@@ -25,5 +25,5 @@
         <item>One</item>
         <item>Two</item>
     </array>
-<string name="added">this one was added</string>
+    <string name="added">this one was added</string>
 </resources>

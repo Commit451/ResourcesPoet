@@ -1,6 +1,5 @@
 package com.commit451.resourcespoet
 
-import org.junit.Ignore
 import org.junit.Test
 import java.io.File
 
@@ -47,7 +46,6 @@ class ConfigTest {
     }
 
     @Test
-    @Ignore("broken due to indentations. Fix it!")
     fun addToExistingFile() {
         val classLoader = javaClass.classLoader
         val file = File(classLoader.getResource("config.xml")!!.file)

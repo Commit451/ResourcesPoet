@@ -1,10 +1,11 @@
 [versions]
-org-jetbrains-kotlin = "1.9.20"
+kotlin = "2.3.21"
+junit = "4.13.2"
+vanniktechPublish = "0.36.0"
 
 [libraries]
-junit = { group = "junit", name = "junit", version = "4.13.2" }
-guava = { group = "com.google.guava", name = "guava", version = "32.0.0-jre" }
+junit = { module = "junit:junit", version.ref = "junit" }
 
 [plugins]
-org-jetbrains-kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin" }
-com-vanniktech-publish = { id = "com.vanniktech.maven.publish", version = "0.27.0" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechPublish" }

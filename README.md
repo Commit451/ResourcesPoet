@@ -1,9 +1,11 @@
 # ResourcePoet
+
 Kotlin API for generating Android XML Resources
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.commit451/resourcespoet.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/com.commit451/resourcespoet)
 
 ## Gradle
+
 ```groovy
 dependencies {
     implementation("com.commit451:resourcespoet:latest.release.here")
@@ -11,7 +13,9 @@ dependencies {
 ```
 
 ## Basic Usage
+
 Write variables to the poet like:
+
 ```kotlin
 val poet = ResourcesPoet.create()
     .addString("app_name", "Test")
@@ -25,7 +29,9 @@ val poet = ResourcesPoet.create()
 val xml: String = poet.build()
 println(xml)
 ```
+
 which would output this XML:
+
 ```xml
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
@@ -39,6 +45,7 @@ which would output this XML:
 ```
 
 To get the XML result as a file:
+
 ```kotlin
 val valuesFolder = File(resFolderPath + File.separator + "values")
 valuesFolder.mkdirs()
@@ -48,6 +55,7 @@ poet.build(configXml)
 ```
 
 You can even start with and modify an existing resource file:
+
 ```kotlin
 val file = File("some/path/to/file")
 val poet = ResourcesPoet.create(file)
@@ -57,7 +65,10 @@ val poet = ResourcesPoet.create(file)
 ```
 
 ## Supported Types
-Most [resource types](https://developer.android.com/guide/topics/resources/available-resources.html) are supported. All look similar in usage:
+
+Most [resource types](https://developer.android.com/guide/topics/resources/available-resources.html) are supported. All
+look similar in usage:
+
 ```kotlin
 val poet = ResourcesPoet.create()
     .addBool("is_cool", true)
@@ -74,6 +85,7 @@ val poet = ResourcesPoet.create()
     .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
     .addTypedArray("some_typed_array", typedArray)
 ```
+
 We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense.
 
 License
