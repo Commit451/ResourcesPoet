@@ -130,6 +130,13 @@ class ResourcesPoet private constructor(
         }
     }
 
+    private fun setToolsIgnore(element: Element, toolsIgnore: String?) {
+        if (toolsIgnore != null) {
+            ensureToolsNamespace()
+            element.setAttribute("tools:ignore", toolsIgnore)
+        }
+    }
+
     /**
      * Set tools:ignore at the top-level <resources> element to suppress lint warnings
      * for all resources in the file.
@@ -165,10 +172,7 @@ class ResourcesPoet private constructor(
             formatString = formatString.substring(0, formatString.length - 1)
             element.setAttribute("format", formatString)
         }
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         resourceElement.appendChild(element)
         return this
     }
@@ -200,10 +204,7 @@ class ResourcesPoet private constructor(
         //<bool name="is_production">false</bool>
         val element = document.createElement(Type.BOOL.toString())
         element.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         element.appendChild(document.createTextNode(value))
         resourceElement.appendChild(element)
         return this
@@ -222,10 +223,7 @@ class ResourcesPoet private constructor(
         //<color name="color_primary">#7770CB</color>
         val element = document.createElement(Type.COLOR.toString())
         element.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         element.appendChild(document.createTextNode(value))
         resourceElement.appendChild(element)
         return this
@@ -256,10 +254,7 @@ class ResourcesPoet private constructor(
         //<drawable name="logo">@drawable/logo</drawable>
         val bool = document.createElement(Type.DRAWABLE.toString())
         bool.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            bool.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(bool, toolsIgnore)
         bool.appendChild(document.createTextNode(value))
         resourceElement.appendChild(bool)
         return this
@@ -278,10 +273,7 @@ class ResourcesPoet private constructor(
         //<dimen name="logo">@dimen/logo</dimen>
         val bool = document.createElement(Type.DIMENSION.toString())
         bool.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            bool.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(bool, toolsIgnore)
         bool.appendChild(document.createTextNode(value))
         resourceElement.appendChild(bool)
         return this
@@ -302,10 +294,7 @@ class ResourcesPoet private constructor(
         val bool = document.createElement(Type.ID.toString())
         bool.setAttribute("name", id)
         bool.setAttribute("type", "id")
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            bool.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(bool, toolsIgnore)
         resourceElement.appendChild(bool)
         return this
     }
@@ -337,10 +326,7 @@ class ResourcesPoet private constructor(
         //<integer name="logo">@integer/logo</integer>
         val bool = document.createElement(Type.INTEGER.toString())
         bool.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            bool.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(bool, toolsIgnore)
         bool.appendChild(document.createTextNode(value))
         resourceElement.appendChild(bool)
         return this
@@ -380,10 +366,7 @@ class ResourcesPoet private constructor(
         // </integer-array>
         val element = document.createElement(Type.INTEGER_ARRAY.toString())
         element.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         for (value in values) {
             //Does this mess up the ordering?
             val valueElement = document.createElement("item")
@@ -411,10 +394,7 @@ class ResourcesPoet private constructor(
         //    </plurals>
         val element = document.createElement(Type.PLURALS.toString())
         element.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         for (plural in plurals) {
             //Does this mess up the ordering?
             val valueElement = document.createElement("item")
@@ -444,10 +424,7 @@ class ResourcesPoet private constructor(
         if (!translatable) {
             element.setAttribute("translatable", "false")
         }
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         element.appendChild(document.createTextNode(value))
         resourceElement.appendChild(element)
         return this
@@ -469,10 +446,7 @@ class ResourcesPoet private constructor(
         // </string-array>
         val element = document.createElement(Type.STRING_ARRAY.toString())
         element.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         for (value in values) {
             //Does this mess up the ordering?
             val valueElement = document.createElement("item")
@@ -500,10 +474,7 @@ class ResourcesPoet private constructor(
         if (parentRef != null) {
             element.setAttribute("parent", parentRef)
         }
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         if (styleItems != null) {
             for (item in styleItems) {
                 val valueElement = document.createElement("item")
@@ -532,10 +503,7 @@ class ResourcesPoet private constructor(
         // </array>
         val element = document.createElement(Type.TYPED_ARRAY.toString())
         element.setAttribute("name", name)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         for (value in values) {
             val valueElement = document.createElement("item")
             valueElement.appendChild(document.createTextNode(value))
@@ -558,10 +526,7 @@ class ResourcesPoet private constructor(
         element.setAttribute("android:fontStyle", fontFamily.fontStyle)
         element.setAttribute("android:fontWeight", fontFamily.fontWeight)
         element.setAttribute("android:font", fontFamily.font)
-        if (toolsIgnore != null) {
-            ensureToolsNamespace()
-            element.setAttribute("tools:ignore", toolsIgnore)
-        }
+        setToolsIgnore(element, toolsIgnore)
         resourceElement.appendChild(element)
         return this
     }
