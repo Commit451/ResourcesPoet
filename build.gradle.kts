@@ -1,5 +1,6 @@
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -21,7 +22,7 @@ mavenPublishing {
     configure(
         JavaLibrary(
             javadocJar = JavadocJar.Javadoc(),
-            sourcesJar = true,
+            sourcesJar = SourcesJar.Sources(),
         )
     )
     publishToMavenCentral(automaticRelease = true)
