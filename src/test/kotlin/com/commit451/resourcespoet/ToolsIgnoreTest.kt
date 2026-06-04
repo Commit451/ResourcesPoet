@@ -144,4 +144,23 @@ class ToolsIgnoreTest {
 
         TestUtil.assertEquals("string_multiple_tools_ignore.xml", poet)
     }
+
+    @Test
+    fun topLevelToolsIgnore() {
+        val poet = ResourcesPoet.create()
+            .toolsIgnore("TypographyDashes")
+            .addString("somekey", "something-else")
+
+        TestUtil.assertEquals("top_level_tools_ignore.xml", poet)
+    }
+
+    @Test
+    fun topLevelAndPerElementToolsIgnore() {
+        val poet = ResourcesPoet.create()
+            .toolsIgnore("UnusedResource")
+            .addString("key1", "value1")
+            .addString("key2", "value2", toolsIgnore = "UnusedIds")
+
+        TestUtil.assertEquals("top_level_and_per_element.xml", poet)
+    }
 }

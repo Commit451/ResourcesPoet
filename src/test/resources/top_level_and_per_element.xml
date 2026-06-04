@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResource">
+    <string name="key1">value1</string>
+    <string name="key2" tools:ignore="UnusedIds">value2</string>
+</resources>

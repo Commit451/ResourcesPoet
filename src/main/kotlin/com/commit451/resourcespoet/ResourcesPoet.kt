@@ -131,6 +131,20 @@ class ResourcesPoet private constructor(
     }
 
     /**
+     * Set tools:ignore at the top-level <resources> element to suppress lint warnings
+     * for all resources in the file.
+     *
+     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource,TypographyDashes")
+     * @return poet
+     */
+    @JvmOverloads
+    fun toolsIgnore(toolsIgnore: String): ResourcesPoet {
+        ensureToolsNamespace()
+        resourceElement.setAttribute("tools:ignore", toolsIgnore)
+        return this
+    }
+
+    /**
      * Add an attr to the XML file
      *
      * @param attr the defined attribute
