@@ -163,4 +163,17 @@ class ToolsIgnoreTest {
 
         TestUtil.assertEquals("top_level_and_per_element.xml", poet)
     }
+
+    @Test
+    fun fontFamilyWithToolsIgnore() {
+        val fontFamily = FontFamily(
+            fontStyle = "normal",
+            fontWeight = "400",
+            font = "@font/roboto_regular"
+        )
+        val poet = ResourcesPoet.create(elementType = ResourcesPoet.Companion.ELEMENT.FONT_FAMILIES)
+            .addFontFamily(fontFamily, toolsIgnore = "UnusedResource")
+
+        TestUtil.assertEquals("font_family_tools_ignore.xml", poet)
+    }
 }

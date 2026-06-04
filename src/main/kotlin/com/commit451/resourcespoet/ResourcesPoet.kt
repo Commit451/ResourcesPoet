@@ -15,7 +15,6 @@ import javax.xml.transform.stream.StreamResult
 /**
  * Helps generate XML resource files for Android
  */
-@Suppress("MemberVisibilityCanBePrivate", "unused")
 class ResourcesPoet private constructor(
     private val document: Document,
     private val resourceElement: Element,
@@ -47,7 +46,6 @@ class ResourcesPoet private constructor(
          *
          * @return poet
          */
-        @JvmStatic
         fun create(indent: Boolean = INDENT_DEFAULT, elementType: ELEMENT = ELEMENT.RESOURCES): ResourcesPoet {
             val document = documentBuilder.newDocument()
             val element = document.createElement(elementType.elementName)
@@ -68,7 +66,6 @@ class ResourcesPoet private constructor(
          * @param file the resources file you want to add to
          * @return poet
          */
-        @JvmStatic
         fun create(file: File, indent: Boolean = INDENT_DEFAULT): ResourcesPoet {
             try {
                 return create(FileInputStream(file), indent)
@@ -86,7 +83,6 @@ class ResourcesPoet private constructor(
          * @param inputStream the input stream of the resources file you want to add to
          * @return poet
          */
-        @JvmStatic
         fun create(
             inputStream: InputStream,
             indent: Boolean = INDENT_DEFAULT,
@@ -144,7 +140,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource,TypographyDashes")
      * @return poet
      */
-    @JvmOverloads
     fun toolsIgnore(toolsIgnore: String): ResourcesPoet {
         ensureToolsNamespace()
         resourceElement.setAttribute("tools:ignore", toolsIgnore)
@@ -158,7 +153,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addAttr(attr: Attr, toolsIgnore: String? = null): ResourcesPoet {
         //<attr name="gravityX" format="float"/>
         val element = document.createElement(Type.ATTR.toString())
@@ -185,7 +179,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addBool(name: String, value: Boolean, toolsIgnore: String? = null): ResourcesPoet {
         addBool(name, value.toString(), toolsIgnore)
         return this
@@ -199,7 +192,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addBool(name: String, value: String, toolsIgnore: String? = null): ResourcesPoet {
         //<bool name="is_production">false</bool>
         val element = document.createElement(Type.BOOL.toString())
@@ -218,7 +210,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addColor(name: String, value: String, toolsIgnore: String? = null): ResourcesPoet {
         //<color name="color_primary">#7770CB</color>
         val element = document.createElement(Type.COLOR.toString())
@@ -249,7 +240,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addDrawable(name: String, value: String, toolsIgnore: String? = null): ResourcesPoet {
         //<drawable name="logo">@drawable/logo</drawable>
         val bool = document.createElement(Type.DRAWABLE.toString())
@@ -268,7 +258,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addDimension(name: String, value: String, toolsIgnore: String? = null): ResourcesPoet {
         //<dimen name="logo">@dimen/logo</dimen>
         val bool = document.createElement(Type.DIMENSION.toString())
@@ -286,7 +275,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addId(id: String, toolsIgnore: String? = null): ResourcesPoet {
         //        <item
         //                type="id"
@@ -307,7 +295,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addInteger(name: String, value: Int?, toolsIgnore: String? = null): ResourcesPoet {
         addInteger(name, value.toString(), toolsIgnore)
         return this
@@ -321,7 +308,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addInteger(name: String, value: String, toolsIgnore: String? = null): ResourcesPoet {
         //<integer name="logo">@integer/logo</integer>
         val bool = document.createElement(Type.INTEGER.toString())
@@ -340,7 +326,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addIntegerArray(name: String, values: List<Int>, toolsIgnore: String? = null): ResourcesPoet {
         val integers = ArrayList<String>()
         for (value in values) {
@@ -358,7 +343,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addIntegerArrayStrings(name: String, values: List<String>, toolsIgnore: String? = null): ResourcesPoet {
         // <integer-array name="numbers">
         //      <item>0</item>
@@ -385,7 +369,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addPlurals(name: String, plurals: List<Plural>, toolsIgnore: String? = null): ResourcesPoet {
         //    <plurals name="numberOfSongsAvailable">
         //        <item quantity="one">Znaleziono %d piosenkę.</item>
@@ -416,7 +399,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addString(name: String, value: String, translatable: Boolean = true, toolsIgnore: String? = null): ResourcesPoet {
         //<string name="app_name" translatable="false">Cool</string>
         val element = document.createElement(Type.STRING.toString())
@@ -438,7 +420,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addStringArray(name: String, values: List<String>, toolsIgnore: String? = null): ResourcesPoet {
         //<string-array name="country_names">
         //      <item>Country</item>
@@ -466,7 +447,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addStyle(name: String, parentRef: String? = null, styleItems: List<StyleItem>? = null, toolsIgnore: String? = null): ResourcesPoet {
         //<style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
         val element = document.createElement(Type.STYLE.toString())
@@ -495,7 +475,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addTypedArray(name: String, values: List<String>, toolsIgnore: String? = null): ResourcesPoet {
         //<array name="country_names">
         //      <item>Country</item>
@@ -520,7 +499,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun addFontFamily(fontFamily: FontFamily, toolsIgnore: String? = null): ResourcesPoet {
         val element = document.createElement(Type.FONT.toString())
         element.setAttribute("android:fontStyle", fontFamily.fontStyle)
@@ -554,7 +532,6 @@ class ResourcesPoet private constructor(
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    @JvmOverloads
     fun add(type: Type, name: String, value: String, toolsIgnore: String? = null): ResourcesPoet {
         return when (type) {
             Type.BOOL -> addBool(name, value, toolsIgnore)
