@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="countries" tools:ignore="UnusedResource">
+        <item>US</item>
+        <item>UK</item>
+    </string-array>
+</resources>
