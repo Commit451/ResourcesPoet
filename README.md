@@ -88,6 +88,42 @@ val poet = ResourcesPoet.create()
 
 We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense.
 
+## Suppressing Lint Warnings
+
+You can add `tools:ignore` to suppress Android lint warnings on individual resources or at the top level:
+
+```kotlin
+// Per-resource ignore
+val poet = ResourcesPoet.create()
+    .addString("app_name", "Test", toolsIgnore = "UnusedResource")
+    .addColor("color_primary", "#FF0000", toolsIgnore = "UnusedIds")
+```
+
+```xml
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="UnusedResource">Test</string>
+    <color name="color_primary" tools:ignore="UnusedIds">#FF0000</color>
+</resources>
+```
+
+You can also set `tools:ignore` at the top-level `<resources>` element to suppress warnings for all resources in the file:
+
+```kotlin
+val poet = ResourcesPoet.create()
+    .toolsIgnore("UnusedResource,TypographyDashes")
+    .addString("somekey", "something-else")
+    .addString("anotherkey", "another-value")
+```
+
+```xml
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResource,TypographyDashes">
+    <string name="somekey">something-else</string>
+    <string name="anotherkey">another-value</string>
+</resources>
+```
+
+Top-level and per-element ignores can be combined — the top-level applies to all children, and per-element ignores override or add to it.
+
 License
 --------
 

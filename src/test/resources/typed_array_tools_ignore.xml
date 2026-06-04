@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <array name="refs" tools:ignore="UnusedResource">
+        <item>@string/a</item>
+        <item>@string/b</item>
+    </array>
+</resources>
