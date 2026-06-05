@@ -124,6 +124,19 @@ val poet = ResourcesPoet.create()
 
 Top-level and per-element ignores can be combined — the top-level applies to all children, and per-element ignores override or add to it.
 
+## Adding Resource Comments
+
+You can add a `comment` attribute to `<string>` elements. This comment is displayed in Android Studio's resource inspector, making it easier for translators and developers to understand the purpose of each string:
+
+```kotlin
+val poet = ResourcesPoet.create()
+    .addString("dialog_close_button", "Close", comment = "Button to dismiss the dialog")
+```
+
+```xml
+<string comment="Button to dismiss the dialog" name="dialog_close_button">Close</string>
+```
+
 License
 --------
 
