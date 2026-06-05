@@ -73,6 +73,7 @@ look similar in usage:
 val poet = ResourcesPoet.create()
     .addBool("is_cool", true)
     .addColor("color_primary", "#FF0000")
+    .addColor("color_accent", 0xFF0000FF)  // Int overload
     .addComment("This is a comment")
     .addDimension("margin", "2dp")
     .addDrawable("logo", "@drawable/logo")
@@ -81,9 +82,16 @@ val poet = ResourcesPoet.create()
     .addIntegerArray("numbers", numbers)
     .addPlurals("songs", plurals)
     .addString("app_name", "Test")
-    .addStringArray("stuff", strings)
+    .addStringArray("stuff", strings, translatable = false)
     .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
-    .addTypedArray("some_typed_array", typedArray)
+    .addTypedArray("some_typed_array", typedArray, translatable = false)
+    .addFraction("width", "50%p")
+    .addIntQuantity("count", quantities)
+    .addIntQuantityArray("counts", quantities)
+    .addColorArray("colors", listOf("#FF0000", "#00FF00"))
+    .addBoolArray("flags", listOf(true, false))
+    .addReference("my_ref", Reference("drawable", "logo"))
+    .addFontFamilyRes(FontFamilyRes("normal", "400", R.font.roboto))
 ```
 
 We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense.
@@ -123,6 +131,78 @@ val poet = ResourcesPoet.create()
 ```
 
 Top-level and per-element ignores can be combined — the top-level applies to all children, and per-element ignores override or add to it.
+
+## Additional Features
+
+### Color with Int
+
+Add colors using an `Int` value (e.g., `R.color.primary`) instead of a hex string:
+
+```kotlin
+val poet = ResourcesPoet.create()
+    .addColor("color_primary", 0xFF0000)  // outputs #000000
+    .addColor("color_accent", 0xFF0000FF) // outputs #0000FF (alpha stripped)
+```
+
+### Translatable Attribute on Arrays
+
+Mark string-arrays and typed-arrays as non-translatable:
+
+```kotlin
+val poet = ResourcesPoet.create()
+    .addStringArray("countries", listOf("US", "UK"), translatable = false)
+    .addTypedArray("items", listOf("@string/a", "@string/b"), translatable = false)
+```
+
+### Style Format Attribute
+
+Add a `format` attribute to styles:
+
+```kotlin
+val poet = ResourcesPoet.create()
+    .addStyle("MyStyle", parentRef = "Base.Style",
+              styleItems = listOf(StyleItem("android:background", "@color/white")),
+              format = "string|reference")
+```
+
+### Font Family with Resource ID
+
+Add font-family entries using an integer resource reference:
+
+```kotlin
+val poet = ResourcesPoet.create()
+    .addFontFamilyRes(FontFamilyRes("normal", "400", R.font.roboto_regular))
+```
+
+### Build to ByteArray
+
+Get the XML as a `ByteArray` for in-memory processing:
+
+```kotlin
+val bytes: ByteArray = poet.buildBytes()
+```
+
+### Load Font-Family Files
+
+Use `create(file, indent, elementType)` to load existing font-family XML files:
+
+```kotlin
+val file = File("res/font/my_fonts.xml")
+val poet = ResourcesPoet.create(file, indent = true, elementType = ResourcesPoet.ELEMENT.FONT_FAMILIES)
+```
+
+## Adding Resource Comments
+
+You can add a `comment` attribute to `<string>` elements. This comment is displayed in Android Studio's resource inspector, making it easier for translators and developers to understand the purpose of each string:
+
+```kotlin
+val poet = ResourcesPoet.create()
+    .addString("dialog_close_button", "Close", comment = "Button to dismiss the dialog")
+```
+
+```xml
+<string comment="Button to dismiss the dialog" name="dialog_close_button">Close</string>
+```
 
 License
 --------

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <item name="logo" tools:ignore="UnusedResource" type="reference">@drawable/logo</item>
+</resources>

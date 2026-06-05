@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color-array name="colors" tools:ignore="UnusedResource">
+        <item>#FF0000</item>
+        <item>#00FF00</item>
+    </color-array>
+</resources>

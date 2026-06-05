@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <int-quantity-array name="counts" tools:ignore="UnusedResource">
+        <item quantity="one">1</item>
+        <item quantity="other">0</item>
+    </int-quantity-array>
+</resources>

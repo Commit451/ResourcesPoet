@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <style format="string|reference" name="AppTheme" parent="Base.AppTheme">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+</resources>

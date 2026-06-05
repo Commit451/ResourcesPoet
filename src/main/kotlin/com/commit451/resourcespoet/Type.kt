@@ -20,7 +20,13 @@ enum class Type(private val xmlName: String) {
     STRING_ARRAY("string-array"),
     STYLE("style"),
     TYPED_ARRAY("array"),
-    FONT("font");
+    FONT("font"),
+    FRACTION("fraction"),
+    INT_QUANTITY("int-quantity"),
+    INT_QUANTITY_ARRAY("int-quantity-array"),
+    COLOR_ARRAY("color-array"),
+    BOOL_ARRAY("bool-array"),
+    REFERENCE("reference");
 
     override fun toString() = xmlName
 }
