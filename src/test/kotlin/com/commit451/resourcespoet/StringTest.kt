@@ -22,4 +22,12 @@ class StringTest {
 
         TestUtil.assertEquals("string_translatable_false.xml", poet)
     }
+
+    @Test
+    fun stringCommentTest() {
+        val poet = ResourcesPoet.create()
+            .addString("dialog_close_button", "Close", comment = "Button to dismiss the dialog")
+
+        TestUtil.assertEquals("string_comment.xml", poet)
+    }
 }

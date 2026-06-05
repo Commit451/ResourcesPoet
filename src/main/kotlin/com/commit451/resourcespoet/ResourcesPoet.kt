@@ -396,15 +396,19 @@ class ResourcesPoet private constructor(
      * @param name  the name
      * @param value the value
      * @param translatable whether this string should be translated
+     * @param comment comment for the string (shown in Android Studio resource inspector)
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    fun addString(name: String, value: String, translatable: Boolean = true, toolsIgnore: String? = null): ResourcesPoet {
-        //<string name="app_name" translatable="false">Cool</string>
+    fun addString(name: String, value: String, translatable: Boolean = true, comment: String? = null, toolsIgnore: String? = null): ResourcesPoet {
+        //<string name="app_name" translatable="false" comment="...">Cool</string>
         val element = document.createElement(Type.STRING.toString())
         element.setAttribute("name", name)
         if (!translatable) {
             element.setAttribute("translatable", "false")
+        }
+        if (comment != null) {
+            element.setAttribute("comment", comment)
         }
         setToolsIgnore(element, toolsIgnore)
         element.appendChild(document.createTextNode(value))
