@@ -73,7 +73,7 @@ look similar in usage:
 val poet = ResourcesPoet.create()
     .addBool("is_cool", true)
     .addColor("color_primary", "#FF0000")
-    .addColor("color_accent", 0xFF0000FF)  // Int overload
+    .addColor("color_accent", 0xFF0000FF.toInt())  // Int overload
     .addComment("This is a comment")
     .addDimension("margin", "2dp")
     .addDrawable("logo", "@drawable/logo")
@@ -86,12 +86,7 @@ val poet = ResourcesPoet.create()
     .addStyle("AppTheme.Dark", "Base.AppTheme.Dark")
     .addTypedArray("some_typed_array", typedArray, translatable = false)
     .addFraction("width", "50%p")
-    .addIntQuantity("count", quantities)
-    .addIntQuantityArray("counts", quantities)
-    .addColorArray("colors", listOf("#FF0000", "#00FF00"))
-    .addBoolArray("flags", listOf(true, false))
     .addReference("my_ref", Reference("drawable", "logo"))
-    .addFontFamilyRes(FontFamilyRes("normal", "400", R.font.roboto))
 ```
 
 We do not allow configuration of more complicated resources like `drawable` and `anim` in the creation sense.
@@ -140,8 +135,8 @@ Add colors using an `Int` value (e.g., `R.color.primary`) instead of a hex strin
 
 ```kotlin
 val poet = ResourcesPoet.create()
-    .addColor("color_primary", 0xFF0000)  // outputs #000000
-    .addColor("color_accent", 0xFF0000FF) // outputs #0000FF (alpha stripped)
+    .addColor("color_primary", 0xFF0000)          // outputs #FF0000
+    .addColor("color_accent", 0xFF0000FF.toInt()) // outputs #0000FF (alpha stripped)
 ```
 
 ### Translatable Attribute on Arrays
@@ -165,15 +160,6 @@ val poet = ResourcesPoet.create()
               format = "string|reference")
 ```
 
-### Font Family with Resource ID
-
-Add font-family entries using an integer resource reference:
-
-```kotlin
-val poet = ResourcesPoet.create()
-    .addFontFamilyRes(FontFamilyRes("normal", "400", R.font.roboto_regular))
-```
-
 ### Build to ByteArray
 
 Get the XML as a `ByteArray` for in-memory processing:
@@ -189,19 +175,6 @@ Use `create(file, indent, elementType)` to load existing font-family XML files:
 ```kotlin
 val file = File("res/font/my_fonts.xml")
 val poet = ResourcesPoet.create(file, indent = true, elementType = ResourcesPoet.ELEMENT.FONT_FAMILIES)
-```
-
-## Adding Resource Comments
-
-You can add a `comment` attribute to `<string>` elements. This comment is displayed in Android Studio's resource inspector, making it easier for translators and developers to understand the purpose of each string:
-
-```kotlin
-val poet = ResourcesPoet.create()
-    .addString("dialog_close_button", "Close", comment = "Button to dismiss the dialog")
-```
-
-```xml
-<string comment="Button to dismiss the dialog" name="dialog_close_button">Close</string>
 ```
 
 License

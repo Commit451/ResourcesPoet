@@ -528,23 +528,6 @@ class ResourcesPoet private constructor(
     }
 
     /**
-     * Add a font family resource using an integer resource reference
-     *
-     * @param fontFamily the defined Font Family with integer resource
-     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
-     * @return poet
-     */
-    fun addFontFamilyRes(fontFamily: FontFamilyRes, toolsIgnore: String? = null): ResourcesPoet {
-        val element = document.createElement(Type.FONT.toString())
-        element.setAttribute("android:fontStyle", fontFamily.fontStyle)
-        element.setAttribute("android:fontWeight", fontFamily.fontWeight)
-        element.setAttribute("android:font", "@font/" + fontFamily.fontRes)
-        setToolsIgnore(element, toolsIgnore)
-        resourceElement.appendChild(element)
-        return this
-    }
-
-    /**
      * Add a fraction to the XML file
      *
      * @param name  the name
@@ -558,108 +541,6 @@ class ResourcesPoet private constructor(
         element.setAttribute("name", name)
         setToolsIgnore(element, toolsIgnore)
         element.appendChild(document.createTextNode(value))
-        resourceElement.appendChild(element)
-        return this
-    }
-
-    /**
-     * Add an int-quantity to the XML file
-     *
-     * @param name    the name
-     * @param quantities the list of quantity items
-     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
-     * @return poet
-     */
-    fun addIntQuantity(name: String, quantities: List<Quantity>, toolsIgnore: String? = null): ResourcesPoet {
-        // <int-quantity name="count">
-        //     <item quantity="one">1</item>
-        //     <item quantity="other">0</item>
-        // </int-quantity>
-        val element = document.createElement(Type.INT_QUANTITY.toString())
-        element.setAttribute("name", name)
-        setToolsIgnore(element, toolsIgnore)
-        for (quantity in quantities) {
-            val valueElement = document.createElement("item")
-            valueElement.setAttribute("quantity", quantity.quantity.toString())
-            valueElement.appendChild(document.createTextNode(quantity.value.toString()))
-            element.appendChild(valueElement)
-        }
-        resourceElement.appendChild(element)
-        return this
-    }
-
-    /**
-     * Add an int-quantity-array to the XML file
-     *
-     * @param name    the name
-     * @param quantities the list of quantity items
-     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
-     * @return poet
-     */
-    fun addIntQuantityArray(name: String, quantities: List<Quantity>, toolsIgnore: String? = null): ResourcesPoet {
-        // <int-quantity-array name="counts">
-        //     <item quantity="one">1</item>
-        //     <item quantity="other">0</item>
-        // </int-quantity-array>
-        val element = document.createElement(Type.INT_QUANTITY_ARRAY.toString())
-        element.setAttribute("name", name)
-        setToolsIgnore(element, toolsIgnore)
-        for (quantity in quantities) {
-            val valueElement = document.createElement("item")
-            valueElement.setAttribute("quantity", quantity.quantity.toString())
-            valueElement.appendChild(document.createTextNode(quantity.value.toString()))
-            element.appendChild(valueElement)
-        }
-        resourceElement.appendChild(element)
-        return this
-    }
-
-    /**
-     * Add a color-array to the XML file
-     *
-     * @param name   the name
-     * @param values the color values (e.g. ["#FF0000", "#00FF00"])
-     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
-     * @return poet
-     */
-    fun addColorArray(name: String, values: List<String>, toolsIgnore: String? = null): ResourcesPoet {
-        // <color-array name="colors">
-        //     <item>#FF0000</item>
-        //     <item>#00FF00</item>
-        // </color-array>
-        val element = document.createElement(Type.COLOR_ARRAY.toString())
-        element.setAttribute("name", name)
-        setToolsIgnore(element, toolsIgnore)
-        for (value in values) {
-            val valueElement = document.createElement("item")
-            valueElement.appendChild(document.createTextNode(value))
-            element.appendChild(valueElement)
-        }
-        resourceElement.appendChild(element)
-        return this
-    }
-
-    /**
-     * Add a bool-array to the XML file
-     *
-     * @param name   the name
-     * @param values the boolean values
-     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
-     * @return poet
-     */
-    fun addBoolArray(name: String, values: List<Boolean>, toolsIgnore: String? = null): ResourcesPoet {
-        // <bool-array name="flags">
-        //     <item>true</item>
-        //     <item>false</item>
-        // </bool-array>
-        val element = document.createElement(Type.BOOL_ARRAY.toString())
-        element.setAttribute("name", name)
-        setToolsIgnore(element, toolsIgnore)
-        for (value in values) {
-            val valueElement = document.createElement("item")
-            valueElement.appendChild(document.createTextNode(value.toString()))
-            element.appendChild(valueElement)
-        }
         resourceElement.appendChild(element)
         return this
     }
@@ -714,10 +595,6 @@ class ResourcesPoet private constructor(
      *
      * [Type.FRACTION]
      *
-     * [Type.COLOR_ARRAY]
-     *
-     * [Type.BOOL_ARRAY]
-     *
      * Any other type will throw an [IllegalArgumentException], as they have a special configuration
      *
      * @param type the type of the resource you wish to add
@@ -735,8 +612,6 @@ class ResourcesPoet private constructor(
             Type.INTEGER -> addInteger(name, value, toolsIgnore)
             Type.STRING -> addString(name, value, toolsIgnore = toolsIgnore)
             Type.FRACTION -> addFraction(name, value, toolsIgnore)
-            Type.COLOR_ARRAY -> addColorArray(name, listOf(value), toolsIgnore)
-            Type.BOOL_ARRAY -> addBoolArray(name, listOf(value.toBoolean()), toolsIgnore)
             else -> throw IllegalArgumentException("Cannot add type $type. It has a special configuration")
         }
     }

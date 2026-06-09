@@ -16,14 +16,6 @@ class ReferenceTest {
     }
 
     @Test
-    fun referenceWithoutType() {
-        val poet = ResourcesPoet.create()
-            .addReference("my_ref", Reference(null, "my_ref"))
-
-        TestUtil.assertEquals("reference_generic.xml", poet)
-    }
-
-    @Test
     fun referenceWithToolsIgnore() {
         val poet = ResourcesPoet.create()
             .addReference("logo", Reference("drawable", "logo"), toolsIgnore = "UnusedResource")

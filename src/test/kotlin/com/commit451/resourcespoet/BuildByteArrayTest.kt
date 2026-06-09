@@ -1,5 +1,6 @@
 package com.commit451.resourcespoet
 
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.nio.charset.StandardCharsets
 
@@ -16,9 +17,9 @@ class BuildByteArrayTest {
         val bytes = poet.buildBytes()
         val xml = String(bytes, StandardCharsets.UTF_8)
 
-        assert(xml.contains("<?xml"))
-        assert(xml.contains("<resources>"))
-        assert(xml.contains("<string name=\"app_name\">Test</string>"))
+        assertTrue(xml.contains("<?xml"))
+        assertTrue(xml.contains("<resources>"))
+        assertTrue(xml.contains("<string name=\"app_name\">Test</string>"))
     }
 
     @Test
@@ -29,6 +30,6 @@ class BuildByteArrayTest {
         val bytes = poet.buildBytes()
         val xml = String(bytes, StandardCharsets.UTF_8)
 
-        assert(xml.contains("encoding=\"utf-8\""))
+        assertTrue(xml.contains("encoding=\"utf-8\""))
     }
 }

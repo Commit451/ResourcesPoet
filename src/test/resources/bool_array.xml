@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<resources>
-    <bool-array name="flags">
-        <item>true</item>
-        <item>false</item>
-    </bool-array>
-</resources>

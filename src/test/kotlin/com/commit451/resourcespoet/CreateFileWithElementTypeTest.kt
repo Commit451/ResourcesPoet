@@ -1,5 +1,6 @@
 package com.commit451.resourcespoet
 
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -15,8 +16,8 @@ class CreateFileWithElementTypeTest {
             .addColor("color_secondary", "#00FF00")
 
         val result = poet.build()
-        assert(result.contains("<color name=\"color_primary\">#FF0000</color>"))
-        assert(result.contains("<color name=\"color_secondary\">#00FF00</color>"))
+        assertTrue(result.contains("<color name=\"color_primary\">#FF0000</color>"))
+        assertTrue(result.contains("<color name=\"color_secondary\">#00FF00</color>"))
     }
 
     @Test
@@ -26,8 +27,8 @@ class CreateFileWithElementTypeTest {
             .addFontFamily(FontFamily("italic", "700", "@font/roboto_italic"))
 
         val result = poet.build()
-        assert(result.contains("<font-family"))
-        assert(result.contains("@font/lobster_regular"))
-        assert(result.contains("@font/roboto_italic"))
+        assertTrue(result.contains("<font-family"))
+        assertTrue(result.contains("@font/lobster_regular"))
+        assertTrue(result.contains("@font/roboto_italic"))
     }
 }
