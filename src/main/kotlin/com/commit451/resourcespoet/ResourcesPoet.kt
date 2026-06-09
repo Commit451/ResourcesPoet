@@ -64,11 +64,13 @@ class ResourcesPoet private constructor(
          * Creates a builder on top of the current resources XML file
          *
          * @param file the resources file you want to add to
+         * @param indent whether to use indentation
+         * @param elementType the type of resource element
          * @return poet
          */
-        fun create(file: File, indent: Boolean = INDENT_DEFAULT): ResourcesPoet {
+        fun create(file: File, indent: Boolean = INDENT_DEFAULT, elementType: ELEMENT = ELEMENT.RESOURCES): ResourcesPoet {
             try {
-                return create(FileInputStream(file), indent)
+                return create(FileInputStream(file), indent, elementType)
             } catch (e: FileNotFoundException) {
                 throw IllegalStateException(
                     "Unable to parse the resource file you passed. Make sure it is properly formatted",
@@ -158,13 +160,7 @@ class ResourcesPoet private constructor(
         val element = document.createElement(Type.ATTR.toString())
         element.setAttribute("name", attr.name)
         if (!attr.formats.isEmpty()) {
-            var formatString = ""
-            for (format in attr.formats) {
-                formatString = formatString + format.toString() + "|"
-            }
-            //remove last |
-            formatString = formatString.substring(0, formatString.length - 1)
-            element.setAttribute("format", formatString)
+            element.setAttribute("format", attr.formats.joinToString("|") { it.toString() })
         }
         setToolsIgnore(element, toolsIgnore)
         resourceElement.appendChild(element)
@@ -352,7 +348,6 @@ class ResourcesPoet private constructor(
         element.setAttribute("name", name)
         setToolsIgnore(element, toolsIgnore)
         for (value in values) {
-            //Does this mess up the ordering?
             val valueElement = document.createElement("item")
             valueElement.appendChild(document.createTextNode(value))
             element.appendChild(valueElement)
@@ -379,7 +374,6 @@ class ResourcesPoet private constructor(
         element.setAttribute("name", name)
         setToolsIgnore(element, toolsIgnore)
         for (plural in plurals) {
-            //Does this mess up the ordering?
             val valueElement = document.createElement("item")
             valueElement.setAttribute("quantity", plural.quantity.toString())
             valueElement.appendChild(document.createTextNode(plural.value))
@@ -417,19 +411,22 @@ class ResourcesPoet private constructor(
      *
      * @param name   the name
      * @param values the value
+     * @param translatable whether this array should be translatable
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    fun addStringArray(name: String, values: List<String>, toolsIgnore: String? = null): ResourcesPoet {
+    fun addStringArray(name: String, values: List<String>, translatable: Boolean = true, toolsIgnore: String? = null): ResourcesPoet {
         //<string-array name="country_names">
         //      <item>Country</item>
         //      <item>United States</item>
         // </string-array>
         val element = document.createElement(Type.STRING_ARRAY.toString())
         element.setAttribute("name", name)
+        if (!translatable) {
+            element.setAttribute("translatable", "false")
+        }
         setToolsIgnore(element, toolsIgnore)
         for (value in values) {
-            //Does this mess up the ordering?
             val valueElement = document.createElement("item")
             valueElement.appendChild(document.createTextNode(value))
             element.appendChild(valueElement)
@@ -444,15 +441,19 @@ class ResourcesPoet private constructor(
      * @param name      the name
      * @param parentRef a ref to the style parent
      * @param styleItems list of style items
+     * @param format the format attribute for the style
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    fun addStyle(name: String, parentRef: String? = null, styleItems: List<StyleItem>? = null, toolsIgnore: String? = null): ResourcesPoet {
+    fun addStyle(name: String, parentRef: String? = null, styleItems: List<StyleItem>? = null, format: String? = null, toolsIgnore: String? = null): ResourcesPoet {
         //<style name="AppTheme.Dark" parent="Base.AppTheme.Dark"/>
         val element = document.createElement(Type.STYLE.toString())
         element.setAttribute("name", name)
         if (parentRef != null) {
             element.setAttribute("parent", parentRef)
+        }
+        if (format != null) {
+            element.setAttribute("format", format)
         }
         setToolsIgnore(element, toolsIgnore)
         if (styleItems != null) {
@@ -472,16 +473,20 @@ class ResourcesPoet private constructor(
      *
      * @param name   the name
      * @param values the value
+     * @param translatable whether this array should be translatable
      * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
      * @return poet
      */
-    fun addTypedArray(name: String, values: List<String>, toolsIgnore: String? = null): ResourcesPoet {
+    fun addTypedArray(name: String, values: List<String>, translatable: Boolean = true, toolsIgnore: String? = null): ResourcesPoet {
         //<array name="country_names">
         //      <item>Country</item>
         //      <item>United States</item>
         // </array>
         val element = document.createElement(Type.TYPED_ARRAY.toString())
         element.setAttribute("name", name)
+        if (!translatable) {
+            element.setAttribute("translatable", "false")
+        }
         setToolsIgnore(element, toolsIgnore)
         for (value in values) {
             val valueElement = document.createElement("item")
@@ -510,6 +515,57 @@ class ResourcesPoet private constructor(
     }
 
     /**
+     * Add a fraction to the XML file
+     *
+     * @param name  the name
+     * @param value the value (e.g. "50%p")
+     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
+     * @return poet
+     */
+    fun addFraction(name: String, value: String, toolsIgnore: String? = null): ResourcesPoet {
+        //<fraction name="fraction_value">50%p</fraction>
+        val element = document.createElement(Type.FRACTION.toString())
+        element.setAttribute("name", name)
+        setToolsIgnore(element, toolsIgnore)
+        element.appendChild(document.createTextNode(value))
+        resourceElement.appendChild(element)
+        return this
+    }
+
+    /**
+     * Add a reference to the XML file
+     *
+     * @param name    the name
+     * @param reference the reference to add
+     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
+     * @return poet
+     */
+    fun addReference(name: String, reference: Reference, toolsIgnore: String? = null): ResourcesPoet {
+        // <item type="reference" name="name">@type/name</item>
+        val element = document.createElement("item")
+        element.setAttribute("type", "reference")
+        element.setAttribute("name", name)
+        element.appendChild(document.createTextNode(reference.toValue()))
+        setToolsIgnore(element, toolsIgnore)
+        resourceElement.appendChild(element)
+        return this
+    }
+
+    /**
+     * Add a reference to the XML file
+     *
+     * @param name    the name
+     * @param type    the reference type (e.g. "drawable", "color")
+     * @param refName the reference name
+     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
+     * @return poet
+     */
+    fun addReference(name: String, type: String, refName: String, toolsIgnore: String? = null): ResourcesPoet {
+        addReference(name, Reference(type, refName), toolsIgnore)
+        return this
+    }
+
+    /**
      * Add type to the XML file by its type. Currently supported types:
      *
      * [Type.BOOL]
@@ -523,6 +579,8 @@ class ResourcesPoet private constructor(
      * [Type.INTEGER]
      *
      * [Type.STRING]
+     *
+     * [Type.FRACTION]
      *
      * Any other type will throw an [IllegalArgumentException], as they have a special configuration
      *
@@ -540,6 +598,7 @@ class ResourcesPoet private constructor(
             Type.DRAWABLE -> addDrawable(name, value, toolsIgnore)
             Type.INTEGER -> addInteger(name, value, toolsIgnore)
             Type.STRING -> addString(name, value, toolsIgnore = toolsIgnore)
+            Type.FRACTION -> addFraction(name, value, toolsIgnore)
             else -> throw IllegalArgumentException("Cannot add type $type. It has a special configuration")
         }
     }
@@ -605,6 +664,17 @@ class ResourcesPoet private constructor(
         val result = StreamResult(writer)
         build(result)
         return writer.toString()
+    }
+
+    /**
+     * Build the XML to a [ByteArray]
+     *
+     * @return the xml as a UTF-8 byte array
+     */
+    fun buildBytes(): ByteArray {
+        val writer = ByteArrayOutputStream()
+        build(writer)
+        return writer.toByteArray()
     }
 
     /**
