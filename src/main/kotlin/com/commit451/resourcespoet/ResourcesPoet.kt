@@ -217,19 +217,6 @@ class ResourcesPoet private constructor(
     }
 
     /**
-     * Add a color to the XML file
-     *
-     * @param name  the name
-     * @param value the color value as an Int (e.g. 0xFF0000 for #FF0000)
-     * @param toolsIgnore lint rule names to suppress (e.g., "UnusedResource")
-     * @return poet
-     */
-    fun addColor(name: String, value: Int, toolsIgnore: String? = null): ResourcesPoet {
-        addColor(name, String.format("#%06X", 0xFFFFFF and value), toolsIgnore)
-        return this
-    }
-
-    /**
      * Add a comment to the XML file
      *
      * @param comment the comment to add

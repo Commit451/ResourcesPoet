@@ -73,7 +73,6 @@ look similar in usage:
 val poet = ResourcesPoet.create()
     .addBool("is_cool", true)
     .addColor("color_primary", "#FF0000")
-    .addColor("color_accent", 0xFF0000FF.toInt())  // Int overload
     .addComment("This is a comment")
     .addDimension("margin", "2dp")
     .addDrawable("logo", "@drawable/logo")
@@ -128,16 +127,6 @@ val poet = ResourcesPoet.create()
 Top-level and per-element ignores can be combined — the top-level applies to all children, and per-element ignores override or add to it.
 
 ## Additional Features
-
-### Color with Int
-
-Add colors using an `Int` value (e.g., `R.color.primary`) instead of a hex string:
-
-```kotlin
-val poet = ResourcesPoet.create()
-    .addColor("color_primary", 0xFF0000)          // outputs #FF0000
-    .addColor("color_accent", 0xFF0000FF.toInt()) // outputs #0000FF (alpha stripped)
-```
 
 ### Translatable Attribute on Arrays
 
